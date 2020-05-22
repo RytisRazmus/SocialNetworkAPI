@@ -6,7 +6,6 @@ public class FriendPost extends Post {
     private String name;
     private String surname;
     private Date date;
-    private String imageUrl;
     private String profileImage;
 
     public FriendPost(Date date, String name, String surname, String friendId, String description,
@@ -15,7 +14,6 @@ public class FriendPost extends Post {
         this.date = date;
         this.name = name;
         this.surname = surname;
-        this.imageUrl = imageUrl;
         this.profileImage = profileImage;
     }
 
@@ -34,10 +32,6 @@ public class FriendPost extends Post {
 
     public String getSurname() {
         return surname;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
     }
 
 }
