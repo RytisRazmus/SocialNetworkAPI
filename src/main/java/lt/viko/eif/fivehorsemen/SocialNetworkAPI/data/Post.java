@@ -10,7 +10,7 @@ public class Post {
         this.description = description;
         this.imageUrl = imageUrl;
     }
-    
+
     public String getUserId() {
         return userId;
     }

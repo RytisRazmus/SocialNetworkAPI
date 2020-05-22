@@ -2,7 +2,9 @@ package lt.viko.eif.fivehorsemen.SocialNetworkAPI.database;
 
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.Friend;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.FriendInvite;
+import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.Post;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.User;
+import org.springframework.stereotype.Controller;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -152,26 +154,30 @@ public class MySqlConnection {
         return friends;
     }
 
-//    public boolean addPost(Post post) {
-//        boolean success = false;
-//        try {
-//            String sql =
-//                    "BEGIN;\n" +
-//                            "INSERT INTO Content(description) VALUES(?);\n" +
-//                            "SELECT LAST_INSERT_ID() INTO @contentId;\n" +
-//                            "INSERT INTO Post(userId, contentId) VALUES(?, @contentId);\n" +
-//                            "INSERT INTO Image(imageURL, contentId) VALUES(?, @contentId);\n" +
-//                            "COMMIT;";
-//
-//            PreparedStatement ps = connect().prepareStatement(sql);
-//
-//            ps.setString(1, post.getDescription());
-//            ps.setString(2, post.);
-//            ps.execute();
-//            success = true;
-//        } catch (SQLException e) {
-//            System.out.println(e.getMessage());
-//        }
-//        return success;
-//    }
+    public boolean addPost(Post post) {
+        boolean success = false;
+
+        try {
+            String sql1 = "INSERT INTO Content(description) VALUES('" + post.getDescription() + "');";
+            PreparedStatement pstmt = connect().prepareStatement(sql1, Statement.RETURN_GENERATED_KEYS);
+            pstmt.executeUpdate();
+            ResultSet keys = pstmt.getGeneratedKeys();
+            keys.next();
+            int key = keys.getInt(1);
+
+            String sql2 = "INSERT INTO Post(userId, contentId) VALUES('" + post.getUserId() + "', '" + key + "');";
+            pstmt = connect().prepareStatement(sql2);
+            pstmt.executeUpdate();
+
+            String sql3 = "INSERT INTO Image(imageURL, contentId) VALUES('" + post.getImageUrl() + "', '" + key +"');";
+            pstmt = connect().prepareStatement(sql3);
+            pstmt.executeUpdate();
+
+
+            success = true;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return success;
+    }
 }
