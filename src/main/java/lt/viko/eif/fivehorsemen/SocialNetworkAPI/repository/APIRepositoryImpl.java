@@ -58,4 +58,9 @@ public class APIRepositoryImpl implements APIRepository {
     public boolean addPost(Post post) {
         return mySqlConnection.addPost(post);
     }
+
+    @Override
+    public String getCity(String userId) {
+        return mySqlConnection.getCity(userId);
+    }
 }

@@ -3,17 +3,27 @@ package lt.viko.eif.fivehorsemen.SocialNetworkAPI.api;
 
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.*;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.repository.APIRepositoryImpl;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Map;
 
 @RequestMapping("/")
 @RestController
 @ResponseBody
-public class APIController {
+public class APIController implements ErrorController {
 
     private APIRepositoryImpl repository = new APIRepositoryImpl();
+    private static final String PATH = "/error";
+
+    @Value("${api.weatherKey}")
+    private String weatherApiKey;
 
     @GetMapping(path = "/friendInvites")
     public ArrayList<FriendInvite> getFriendInvites(@RequestParam("id") String userId){
@@ -33,7 +43,10 @@ public class APIController {
     }
 
     @GetMapping(path = "/friends")
-    public ArrayList<Friend> getFriends(@RequestParam("id") String userId){
+    public ArrayList<Friend> getFriends(@RequestParam("id") String userId, HttpServletRequest request){
+        String remoteAddress = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
+                .getRequest().getRemoteAddr();
+        System.out.println(remoteAddress);
         return repository.getFriends(userId);
     }
 
@@ -65,6 +78,28 @@ public class APIController {
     @GetMapping(path = "/posts")
     public ArrayList<FriendPost> posts(@RequestParam(name = "id") String id) {
         return repository.getFriendPosts(id);
+    }
+
+    @GetMapping(path = "/weather")
+    public String getWeather(@RequestParam(name = "id") String userId) {
+
+        String city = repository.getCity(userId);
+        String uri = "https://api.weatherbit.io/v2.0/current?city=" + city + "&key=" + weatherApiKey;
+        RestTemplate restTemplate = new RestTemplate();
+        String result = restTemplate.getForObject(uri, String.class);
+
+        return result;
+    }
+
+
+    @RequestMapping(value = PATH)
+    public String error() {
+        return "No such url." ;
+    }
+
+    @Override
+    public String getErrorPath() {
+        return PATH;
     }
 
 }

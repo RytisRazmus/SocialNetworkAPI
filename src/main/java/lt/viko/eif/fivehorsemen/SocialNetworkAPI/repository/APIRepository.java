@@ -15,4 +15,5 @@ public interface APIRepository {
     boolean insertFriendInvite(String toUser, String fromUser);
     ArrayList<Friend> getFriends(String userId);
     boolean addPost(Post post);
+    String getCity(String userId);
 }

@@ -306,5 +306,30 @@ public class MySqlConnection {
         return success;
     }
 
+    public String getCity(String userId) {
+        String city = "";
+        try {
+            String sql =
+                    "SELECT city FROM User WHERE User.id = ?;";
+
+            PreparedStatement ps = connect().prepareStatement(sql);
+
+            ps.setString(1, userId);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                city = rs.getString("city");
+            }
+            System.out.println(city);
+            rs.close();
+            ps.close();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return city;
+    }
+
 
 }
