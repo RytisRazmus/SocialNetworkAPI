@@ -1,6 +1,5 @@
 package lt.viko.eif.fivehorsemen.SocialNetworkAPI.api;
 
-import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.User;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.database.MySqlConnection;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

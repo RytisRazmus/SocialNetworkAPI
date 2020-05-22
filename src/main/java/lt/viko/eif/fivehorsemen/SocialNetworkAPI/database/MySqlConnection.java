@@ -3,8 +3,6 @@ package lt.viko.eif.fivehorsemen.SocialNetworkAPI.database;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.User;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MySqlConnection {
     static String USER = "lopai";
