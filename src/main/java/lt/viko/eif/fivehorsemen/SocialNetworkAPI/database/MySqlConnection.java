@@ -4,7 +4,6 @@ import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.Friend;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.FriendPost;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.User;
 
-import java.awt.*;
 import java.sql.*;
 import java.util.ArrayList;
 
