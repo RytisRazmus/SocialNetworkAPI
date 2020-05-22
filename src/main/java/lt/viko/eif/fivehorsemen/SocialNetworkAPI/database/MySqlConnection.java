@@ -10,10 +10,10 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class MySqlConnection {
-    static String USER = "root";
-    static String PASSWORD = "playmaker";
-    static String DB_URL = "jdbc:mysql://localhost:3306/soctinklas?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-
+    static String USER = "lopai";
+    static String PASSWORD = "tumasonis";
+    static String DB_URL = "jdbc:mysql://78.61.168.194:3306/cityTransport";
+    
     private Connection connect() {
         Connection conn = null;
         try {
