@@ -1,6 +1,10 @@
 package lt.viko.eif.fivehorsemen.SocialNetworkAPI.data;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+
 public class User {
+
     private String id;
     private String email;
     private String name;
@@ -9,6 +13,13 @@ public class User {
     private String lastSeen;
     private String dateOfBirth;
     private String password;
+
+    /**
+     * default constructor for JSON.
+     */
+    public User() {
+
+    }
 
     public User(String id, String email, String name, String surname, String phoneNumber,
                 String lastSeen, String dateOfBirth, String password) {
