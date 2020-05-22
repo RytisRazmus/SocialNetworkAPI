@@ -3,9 +3,9 @@ package lt.viko.eif.fivehorsemen.SocialNetworkAPI.api;
 
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("users")
+@RequestMapping("/")
 @RestController
 @ResponseBody
-public class UserController {
+public class APIController {
 
 }
