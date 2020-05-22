@@ -1,10 +1,14 @@
 package lt.viko.eif.fivehorsemen.SocialNetworkAPI.repository;
 
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.*;
+import lt.viko.eif.fivehorsemen.SocialNetworkAPI.database.MySqlConnection;
 
 import java.util.ArrayList;
 
 public class APIRepositoryImpl implements APIRepository {
+
+    private MySqlConnection mySqlConnection = new MySqlConnection();
+
     @Override
     public User getUser(String email, String password) {
         return null;
