@@ -1,25 +1,16 @@
 package lt.viko.eif.fivehorsemen.SocialNetworkAPI.data;
 
 public class Post {
-    private String name;
-    private String surname;
     private String userId;
     private String imageUrl;
+    private String description;
 
-    public Post(String name, String surname, String userId, String imageUrl) {
-        this.name = name;
-        this.surname = surname;
+    public Post(String userId, String description, String imageUrl) {
         this.userId = userId;
+        this.description = description;
         this.imageUrl = imageUrl;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
 
     public String getUserId() {
         return userId;
@@ -27,6 +18,10 @@ public class Post {
 
     public String getImageUrl() {
         return imageUrl;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
 }
