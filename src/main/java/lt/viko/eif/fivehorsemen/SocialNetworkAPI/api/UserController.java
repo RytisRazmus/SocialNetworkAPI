@@ -13,30 +13,4 @@ import java.util.List;
 @ResponseBody
 public class UserController {
 
-    MySqlConnection mySqlConnection = new MySqlConnection();
-
-    @GetMapping(path = "/user")
-    public User user(@RequestParam(name = "email") String email, @RequestParam(name = "pass") String pass){
-        return mySqlConnection.getUser(email, pass);
-    }
-
-    @GetMapping(path = "/search")
-    public Friend search(@RequestParam(name = "fullname") String fullname){
-        return mySqlConnection.searchUser(fullname);
-    }
-
-    @DeleteMapping(path = "/del")
-    public void del(@RequestParam(name = "id") String id){
-        mySqlConnection.deleteFriendInv(id);
-    }
-
-    @PostMapping(path = "/friend")
-    public void friend(){
-        mySqlConnection.acceptFriendInvite("8","9");
-    }
-
-    @GetMapping(path = "/posts")
-    public List<FriendPost> posts() {
-        return mySqlConnection.getFriendPosts("3");
-    }
 }
