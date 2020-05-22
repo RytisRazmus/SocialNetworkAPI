@@ -2,12 +2,10 @@ package lt.viko.eif.fivehorsemen.SocialNetworkAPI.database;
 
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.Friend;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.FriendInvite;
-import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.Post;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.User;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MySqlConnection {
     static String USER = "root";
