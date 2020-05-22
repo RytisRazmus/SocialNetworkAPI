@@ -43,10 +43,7 @@ public class APIController implements ErrorController {
     }
 
     @GetMapping(path = "/friends")
-    public ArrayList<Friend> getFriends(@RequestParam("id") String userId, HttpServletRequest request){
-        String remoteAddress = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
-                .getRequest().getRemoteAddr();
-        System.out.println(remoteAddress);
+    public ArrayList<Friend> getFriends(@RequestParam("id") String userId){
         return repository.getFriends(userId);
     }
 
