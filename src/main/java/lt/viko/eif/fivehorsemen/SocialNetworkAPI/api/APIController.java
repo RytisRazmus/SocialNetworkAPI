@@ -6,6 +6,7 @@ import lt.viko.eif.fivehorsemen.SocialNetworkAPI.exception.NotFoundException;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.repository.APIRepositoryImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -13,12 +14,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.zip.DataFormatException;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 
-@RequestMapping("/api/")
+@RequestMapping(value = "/api/")
 @RestController
 public class APIController implements ErrorController {
 
@@ -31,13 +37,26 @@ public class APIController implements ErrorController {
     @Value("${api.loveKey}")
     private String loveApiKey;
 
+    @Value("${api.languageKey}")
+    private String languageKey;
+
     @GetMapping(path = "/friendInvites")
-    public ArrayList<FriendInvite> getFriendInvites(@RequestParam("id") String userId){
-        return repository.getFriendInvites(userId);
+    public ArrayList<FriendInvite> getFriendInvites(@RequestParam("id") String userId) throws NotFoundException {
+        ArrayList<FriendInvite> friendInvites = repository.getFriendInvites(userId);
+        if (friendInvites.isEmpty())
+            throw new NotFoundException("Could not find friend invites.", 404);
+        else {
+            for (FriendInvite x : friendInvites) {
+                Link link = linkTo(FriendInvite.class).slash("/api/friendInvites").withSelfRel();
+                x.setLink(link);
+            }
+
+            return friendInvites;
+        }
     }
 
-    @PostMapping(path = "/users")
-    public String addUser(@RequestBody User user) throws DataFormatException {
+    @PostMapping(path = "/register")
+    public String register(@RequestBody User user) {
         boolean success = repository.addUser(user);
         if (!success) {
             throw new NotFoundException("Could not insert new User.", 406);
@@ -46,45 +65,97 @@ public class APIController implements ErrorController {
     }
 
     @PostMapping(path = "/friendInvites")
-    public boolean sendFriendInvite(@RequestBody Map<String, String> json){
+    public String sendFriendInvite(@RequestBody Map<String, String> json){
         String toUser = json.get("toUser");
         String fromUser = json.get("fromUser");
-        return repository.insertFriendInvite(toUser, fromUser);
+        boolean success = repository.insertFriendInvite(toUser, fromUser);
+
+        if (!success) {
+            throw new NotFoundException("Could not send friend invites.", 406);
+        }
+        else {
+            return "Invite sent.";
+        }
     }
 
     @GetMapping(path = "/friends")
     public ArrayList<Friend> getFriends(@RequestParam("id") String userId){
-        return repository.getFriends(userId);
+        Link link = linkTo(Friend.class).slash("/api/friends").withSelfRel();
+        ArrayList<Friend> friends = repository.getFriends(userId);
+        for (Friend f: friends) {
+            f.setLink(link);
+        }
+        return friends;
     }
 
     @PostMapping(path = "/posts")
-    public boolean addPost(@RequestBody Post post){
-        return repository.addPost(post);
+    public String addPost(@RequestBody Post post){
+        boolean success = repository.addPost(post);
+
+        if (!success) {
+            throw new NotFoundException("Could not add post.", 406);
+        }
+        else {
+            return "Post added.";
+        }
     }
 
-    @GetMapping(path = "/users")
-    public User getUser(@RequestParam(name = "email") String email, @RequestParam(name = "pass") String pass){
-        return repository.getUser(email, pass);
+    @PostMapping(path = "/login")
+    public User login(@RequestBody Map<String, String> json){
+        String email = json.get("email");
+        String password = json.get("password");
+        User user = repository.getUser(email, password);
+        Link link = linkTo(User.class).slash("/api/login").withSelfRel();
+        user.setLink(link);
+        if (user == null) {
+            throw new NotFoundException("No such user", 404);
+        }
+        return user;
     }
 
     @GetMapping(path = "/friend")
-    public Friend searchForFriend(@RequestParam(name = "fullname") String fullname){
-        return repository.searchUser(fullname);
+    public ArrayList<Friend> searchForFriend(@RequestParam(name = "fullname") String fullname) {
+        ArrayList<Friend> friends = repository.searchUser(fullname);
+        Link link = linkTo(Friend.class).slash("/api/friend").withSelfRel();
+        for (Friend f: friends) {
+            f.setLink(link);
+        }
+        return friends;
     }
 
     @DeleteMapping(path = "/friendInvites")
     public boolean deleteFriendInv(@RequestParam(name = "id") String id){
-        return repository.deleteFriendInv(id);
+        boolean success = repository.deleteFriendInv(id);
+        if (!success){
+            throw new NotFoundException("Could not reject friend invite.", 500);
+        }
+        return success;
     }
 
     @PostMapping(path = "/friends")
-    public boolean acceptFriend(@RequestParam(name = "toUser") String toUser, @RequestParam(name = "fromUser") String fromUser){
-        return repository.acceptFriendInvite(toUser,fromUser);
+    public boolean acceptFriend(@RequestParam(name = "toUser") String toUser,
+                                @RequestParam(name = "fromUser") String fromUser){
+        boolean success = repository.acceptFriendInvite(toUser,fromUser);
+        if (!success) {
+            throw new NotFoundException("Could not accept invite.", 500);
+        }
+        return success;
     }
 
     @GetMapping(path = "/posts")
     public ArrayList<FriendPost> posts(@RequestParam(name = "id") String id) {
-        return repository.getFriendPosts(id);
+        ArrayList<FriendPost> posts = repository.getFriendPosts(id);
+
+        if (posts.isEmpty()) {
+            throw new NotFoundException("Could not find friends posts.", 404);
+        } else {
+            for (FriendPost x : posts) {
+                Link link = linkTo(FriendPost.class).slash("/api/posts").withSelfRel();
+                x.setLink(link);
+            }
+
+            return posts;
+        }
     }
 
     @GetMapping(path = "/weather")
@@ -102,6 +173,64 @@ public class APIController implements ErrorController {
         }
     }
 
+    @PostMapping(path = "/language-detect")
+    public @ResponseBody String detectlanguage(@RequestBody Map<String, String> json) throws NotFoundException {
+        String text = json.get("text");
+
+        if (text == null){
+            throw new NotFoundException("Wrong json format.", 400);
+        } else {
+            text = text.replace(" ", "20%");
+            String uri = "http://api.languagelayer.com/detect?access_key=" + languageKey +
+                    "&query=" + text;
+            RestTemplate restTemplate = new RestTemplate();
+            String result = restTemplate.getForObject(uri, String.class);
+
+            return result;
+        }
+    }
+
+    @GetMapping(path = "/love")
+    public String getLove(@RequestParam(name = "id") String userId, @RequestParam(name = "loveId") String loverId) {
+
+        String name = repository.identifyUser(userId).getName();
+        String secName = repository.identifyUser(loverId).getName();
+        if (name == null || secName == null) {
+            throw new NotFoundException("There are no specified users.", 404);
+        } else {
+            String uri = "https://love-calculator.p.rapidapi.com/getPercentage?fname=" + name +
+                    "&sname=" + secName;
+            RestTemplate restTemplate = new RestTemplate();
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("x-rapidapi-host", "love-calculator.p.rapidapi.com");
+            headers.set("x-rapidapi-key", loveApiKey);
+
+            HttpEntity entity = new HttpEntity(headers);
+
+            ResponseEntity<String> response = restTemplate.exchange(
+                    uri, HttpMethod.GET, entity, String.class);
+
+            return response.getBody();
+        }
+
+    }
+
+    @GetMapping(path = "/verifyMail")
+    public String verifyMail(@RequestParam(name = "email") String email) {
+
+        if (email == "") {
+            throw new NotFoundException("There are no specified users.", 404);
+        } else {
+            String uri = "https://api.mailboxvalidator.com/v1/validation/single?key=" + "W99YN42B0IJQXL3B5LYR" +
+                    "&format=json&email=" + email;
+            RestTemplate restTemplate = new RestTemplate();
+            String result = restTemplate.getForObject(uri, String.class);
+
+            return result;
+        }
+
+    }
 
     @RequestMapping(value = PATH)
     public String error() {
@@ -113,26 +242,5 @@ public class APIController implements ErrorController {
         return PATH;
     }
 
-    @GetMapping(path = "/love")
-    public String getLove(@RequestParam(name = "id") String userId, @RequestParam(name = "loveId") String loverId) {
-
-        String name = repository.identifyUser(userId).getName();
-        String secName = repository.identifyUser(loverId).getName();
-        String uri = "https://love-calculator.p.rapidapi.com/getPercentage?fname=" + name +
-                        "&sname=" + secName;
-        RestTemplate restTemplate = new RestTemplate();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("x-rapidapi-host", "love-calculator.p.rapidapi.com");
-        headers.set("x-rapidapi-key", loveApiKey);
-
-        HttpEntity entity = new HttpEntity(headers);
-
-        ResponseEntity<String> response = restTemplate.exchange(
-                uri, HttpMethod.GET, entity, String.class);
-
-        return response.getBody();
-
-    }
 
 }

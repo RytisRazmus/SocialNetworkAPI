@@ -20,7 +20,7 @@ public class APIRepositoryImpl implements APIRepository {
     }
 
     @Override
-    public Friend searchUser(String fullname) {
+    public ArrayList<Friend> searchUser(String fullname) {
         return mySqlConnection.searchUser(fullname);
     }
 

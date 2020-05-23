@@ -17,6 +17,6 @@ public class RestErrorHandler extends ResponseEntityExceptionHandler {
         CustomExceptionSchema exceptionResponse =
                 new CustomExceptionSchema(
                         ex.getMessage(), ex.getErrorCode());
-        return new ResponseEntity(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity(exceptionResponse, HttpStatus.valueOf(ex.getErrorCode()));
     }
 }
