@@ -74,7 +74,7 @@ public class APIController implements ErrorController {
     }
 
     @GetMapping(path = "/weather")
-    public  @ResponseBody String getWeather(@RequestParam(name = "id") String userId) throws NotFoundException {
+    public @ResponseBody String getWeather(@RequestParam(name = "id") String userId) throws NotFoundException {
 
         String city = repository.getCity(userId);
         if (city == null){
