@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
@@ -27,6 +26,9 @@ public class APIController implements ErrorController {
 
     @Value("${api.weatherKey}")
     private String weatherApiKey;
+
+    @Value("${api.loveKey}")
+    private String loveApiKey;
 
     @GetMapping(path = "/friendInvites")
     public ArrayList<FriendInvite> getFriendInvites(@RequestParam("id") String userId){
@@ -118,7 +120,7 @@ public class APIController implements ErrorController {
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("x-rapidapi-host", "love-calculator.p.rapidapi.com");
-        headers.set("x-rapidapi-key", "045de38290mshb58ec6d51d4e6a9p1d0760jsn01c573420a6a");
+        headers.set("x-rapidapi-key", loveApiKey);
 
         HttpEntity entity = new HttpEntity(headers);
 
