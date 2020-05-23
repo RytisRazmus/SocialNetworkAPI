@@ -14,6 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -42,6 +46,11 @@ public class APIController implements ErrorController {
         if (friendInvites.isEmpty())
             throw new NotFoundException("Could not find friend invites.", 404);
         else {
+            for (FriendInvite x : friendInvites) {
+                Link link = linkTo(FriendInvite.class).slash("/api/friendInvites").withSelfRel();
+                x.setLink(link);
+            }
+
             return friendInvites;
         }
     }
