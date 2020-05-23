@@ -14,6 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -193,6 +197,28 @@ public class APIController implements ErrorController {
         }
 
     }
+
+    @GetMapping(path = "/verifyPassword")
+    public String verifyPassword(@RequestParam(name = "pass") String pass) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        String password;
+
+        if (pass == "") {
+            throw new NotFoundException("There are no specified users.", 404);
+        } else {
+            MessageDigest digest = MessageDigest.getInstance("SHA-1");
+            digest.reset();
+            digest.update(pass.getBytes("utf8"));
+            password = String.format("%040x", new BigInteger(1, digest.digest()));
+            String uri = "https://api.mailboxvalidator.com/v1/validation/single?key=" + "W99YN42B0IJQXL3B5LYR" +
+                    "&format=json&email=" + email;
+            RestTemplate restTemplate = new RestTemplate();
+            String result = restTemplate.getForObject(uri, String.class);
+
+            return result;
+        }
+
+    }
+
 
     @RequestMapping(value = PATH)
     public String error() {
