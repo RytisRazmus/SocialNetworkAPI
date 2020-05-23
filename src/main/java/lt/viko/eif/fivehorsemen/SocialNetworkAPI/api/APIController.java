@@ -71,7 +71,12 @@ public class APIController implements ErrorController {
 
     @GetMapping(path = "/friends")
     public ArrayList<Friend> getFriends(@RequestParam("id") String userId){
-        return repository.getFriends(userId);
+        Link link = linkTo(Friend.class).slash("/api/friends").withSelfRel();
+        ArrayList<Friend> friends = repository.getFriends(userId);
+        for (Friend f: friends) {
+            f.setLink(link);
+        }
+        return friends;
     }
 
     @PostMapping(path = "/posts")
