@@ -15,7 +15,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.zip.DataFormatException;
 
 
 @RequestMapping("/api/")
@@ -81,11 +80,16 @@ public class APIController implements ErrorController {
 
     @DeleteMapping(path = "/friendInvites")
     public boolean deleteFriendInv(@RequestParam(name = "id") String id){
-        return repository.deleteFriendInv(id);
+        boolean success = repository.deleteFriendInv(id);
+        if (!success){
+            throw new NotFoundException("Could not reject friend invite.", 500);
+        }
+        return success;
     }
 
     @PostMapping(path = "/friends")
-    public boolean acceptFriend(@RequestParam(name = "toUser") String toUser, @RequestParam(name = "fromUser") String fromUser){
+    public boolean acceptFriend(@RequestParam(name = "toUser") String toUser,
+                                @RequestParam(name = "fromUser") String fromUser){
         return repository.acceptFriendInvite(toUser,fromUser);
     }
 
