@@ -2,6 +2,7 @@ package lt.viko.eif.fivehorsemen.SocialNetworkAPI.api;
 
 
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.*;
+import lt.viko.eif.fivehorsemen.SocialNetworkAPI.exception.NotFoundException;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.repository.APIRepositoryImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.error.ErrorController;
@@ -19,7 +20,6 @@ import java.util.Random;
 
 @RequestMapping("/")
 @RestController
-@ResponseBody
 public class APIController implements ErrorController {
 
     private APIRepositoryImpl repository = new APIRepositoryImpl();
@@ -81,14 +81,18 @@ public class APIController implements ErrorController {
     }
 
     @GetMapping(path = "/weather")
-    public String getWeather(@RequestParam(name = "id") String userId) {
+    public  @ResponseBody String getWeather(@RequestParam(name = "id") String userId) throws NotFoundException {
 
         String city = repository.getCity(userId);
-        String uri = "https://api.weatherbit.io/v2.0/current?city=" + city + "&key=" + weatherApiKey;
-        RestTemplate restTemplate = new RestTemplate();
-        String result = restTemplate.getForObject(uri, String.class);
+        if (city == null){
+            throw new NotFoundException("User has not specified the city.", 404);
+        } else {
+            String uri = "https://api.weatherbit.io/v2.0/current?city=" + city + "&key=" + weatherApiKey;
+            RestTemplate restTemplate = new RestTemplate();
+            String result = restTemplate.getForObject(uri, String.class);
 
-        return result;
+            return result;
+        }
     }
 
 
