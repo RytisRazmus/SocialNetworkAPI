@@ -46,6 +46,11 @@ public class APIController implements ErrorController {
         if (friendInvites.isEmpty())
             throw new NotFoundException("Could not find friend invites.", 404);
         else {
+            for (FriendInvite x : friendInvites) {
+                Link link = linkTo(FriendInvite.class).slash("/api/friendInvites").withSelfRel();
+                x.setLink(link);
+            }
+
             return friendInvites;
         }
     }
@@ -217,28 +222,6 @@ public class APIController implements ErrorController {
         }
 
     }
-
-    @GetMapping(path = "/verifyPassword")
-    public String verifyPassword(@RequestParam(name = "pass") String pass) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-        String password;
-
-        if (pass == "") {
-            throw new NotFoundException("There are no specified users.", 404);
-        } else {
-            MessageDigest digest = MessageDigest.getInstance("SHA-1");
-            digest.reset();
-            digest.update(pass.getBytes("utf8"));
-            password = String.format("%040x", new BigInteger(1, digest.digest()));
-            String uri = "https://api.mailboxvalidator.com/v1/validation/single?key=" + "W99YN42B0IJQXL3B5LYR" +
-                    "&format=json&email=" + email;
-            RestTemplate restTemplate = new RestTemplate();
-            String result = restTemplate.getForObject(uri, String.class);
-
-            return result;
-        }
-
-    }
-
 
     @RequestMapping(value = PATH)
     public String error() {
