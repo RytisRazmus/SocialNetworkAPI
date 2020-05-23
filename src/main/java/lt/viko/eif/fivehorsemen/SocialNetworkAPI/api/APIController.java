@@ -115,7 +115,11 @@ public class APIController implements ErrorController {
     @PostMapping(path = "/friends")
     public boolean acceptFriend(@RequestParam(name = "toUser") String toUser,
                                 @RequestParam(name = "fromUser") String fromUser){
-        return repository.acceptFriendInvite(toUser,fromUser);
+        boolean success = repository.acceptFriendInvite(toUser,fromUser);
+        if (!success) {
+            throw new NotFoundException("Could not accept invite.", 500);
+        }
+        return success;
     }
 
     @GetMapping(path = "/posts")
