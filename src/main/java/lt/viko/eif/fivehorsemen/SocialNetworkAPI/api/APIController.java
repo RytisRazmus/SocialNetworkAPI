@@ -25,6 +25,9 @@ public class APIController implements ErrorController {
     @Value("${api.weatherKey}")
     private String weatherApiKey;
 
+    @Value("${api.loveCalcKey")
+    private String loveCalcKey;
+
     @GetMapping(path = "/friendInvites")
     public ArrayList<FriendInvite> getFriendInvites(@RequestParam("id") String userId){
         return repository.getFriendInvites(userId);
@@ -97,6 +100,11 @@ public class APIController implements ErrorController {
     @Override
     public String getErrorPath() {
         return PATH;
+    }
+
+    @GetMapping(path = "/love")
+    public String getLove(@RequestParam(name = "name") String name, @RequestParam(name = "friendName") String friendName) {
+        return null;
     }
 
 }
