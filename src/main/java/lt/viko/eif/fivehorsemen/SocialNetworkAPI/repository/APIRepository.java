@@ -28,4 +28,6 @@ public interface APIRepository {
 
     String getCity(String userId);
 
+    User identifyUser(String userId);
+
 }

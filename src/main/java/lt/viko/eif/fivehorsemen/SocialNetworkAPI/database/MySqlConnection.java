@@ -331,5 +331,33 @@ public class MySqlConnection {
         return city;
     }
 
+    public User identifyUser(String userId) {
+        String statement = "SELECT * FROM User WHERE User.id = ?";
+        User user = null;
+
+        try {
+            Connection conn = this.connect();
+
+            PreparedStatement pstmt = conn.prepareStatement(statement);
+
+            pstmt.setString(1, userId);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                user = new User(rs.getString("id"), rs.getString("email"), rs.getString("name"),
+                        rs.getString("surname"), rs.getString("password"), rs.getString("phoneNumber"),
+                        rs.getString("lastSeen"), rs.getString("dateOfBirth"));
+            }
+
+            rs.close();
+            pstmt.close();
+            conn.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
 
 }
