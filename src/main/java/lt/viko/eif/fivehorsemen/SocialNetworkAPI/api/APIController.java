@@ -41,8 +41,8 @@ public class APIController implements ErrorController {
         }
     }
 
-    @PostMapping(path = "/users")
-    public String addUser(@RequestBody User user) throws DataFormatException {
+    @PostMapping(path = "/register")
+    public String register(@RequestBody User user) {
         boolean success = repository.addUser(user);
         if (!success) {
             throw new NotFoundException("Could not insert new User.", 406);
@@ -81,9 +81,16 @@ public class APIController implements ErrorController {
         }
     }
 
-    @GetMapping(path = "/users")
-    public User getUser(@RequestParam(name = "email") String email, @RequestParam(name = "pass") String pass){
-        return repository.getUser(email, pass);
+    @PostMapping(path = "/login")
+    public User login(@RequestBody Map<String, String> json){
+        String email = json.get("email");
+        String password = json.get("password");
+        User user = repository.getUser(email, password);
+
+        if (user == null) {
+            throw new NotFoundException("No such user", 404);
+        }
+        return user;
     }
 
     @GetMapping(path = "/friend")
