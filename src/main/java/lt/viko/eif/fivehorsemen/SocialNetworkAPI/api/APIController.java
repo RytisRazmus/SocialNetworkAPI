@@ -67,7 +67,7 @@ public class APIController implements ErrorController {
         boolean success = repository.insertFriendInvite(toUser, fromUser);
 
         if (!success) {
-            throw new NotFoundException("Could not send friend invites.", 406);
+            throw new NotFoundException("Could not send friend invite.", 406);
         }
         else {
             return "Invite sent.";
@@ -104,7 +104,7 @@ public class APIController implements ErrorController {
         Link link = linkTo(User.class).slash("/api/login").withSelfRel();
         user.setLink(link);
         if (user == null) {
-            throw new NotFoundException("No such user", 404);
+            throw new NotFoundException("No such user.", 404);
         }
         return user;
     }
