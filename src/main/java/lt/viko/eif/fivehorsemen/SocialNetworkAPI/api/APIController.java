@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
 
-@RequestMapping("/")
+@RequestMapping("/api")
 @RestController
 public class APIController implements ErrorController {
 
