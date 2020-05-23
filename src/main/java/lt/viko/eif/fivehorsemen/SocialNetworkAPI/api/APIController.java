@@ -31,8 +31,13 @@ public class APIController implements ErrorController {
     private String loveApiKey;
 
     @GetMapping(path = "/friendInvites")
-    public ArrayList<FriendInvite> getFriendInvites(@RequestParam("id") String userId){
-        return repository.getFriendInvites(userId);
+    public ArrayList<FriendInvite> getFriendInvites(@RequestParam("id") String userId) throws NotFoundException {
+        ArrayList<FriendInvite> friendInvites = repository.getFriendInvites(userId);
+        if (friendInvites.isEmpty())
+            throw new NotFoundException("could not find friend invites", 404);
+        else {
+            return friendInvites;
+        }
     }
 
     @PostMapping(path = "/users")
@@ -120,6 +125,26 @@ public class APIController implements ErrorController {
         HttpHeaders headers = new HttpHeaders();
         headers.set("x-rapidapi-host", "love-calculator.p.rapidapi.com");
         headers.set("x-rapidapi-key", loveApiKey);
+
+        HttpEntity entity = new HttpEntity(headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                uri, HttpMethod.GET, entity, String.class);
+
+        return response.getBody();
+
+    }
+
+    @GetMapping(path = "/verifyMail")
+    public String verifyEmail(@RequestParam(name = "email") String email) {
+
+        String uri = "https://email-validation4.p.rapidapi.com/?email=" + email;
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("x-rapidapi-host", "email-validation4.p.rapidapi.com");
+        headers.set("x-rapidapi-key", loveApiKey);
+        headers.set("content-type", "application/x-www-form-urlencoded");
 
         HttpEntity entity = new HttpEntity(headers);
 
