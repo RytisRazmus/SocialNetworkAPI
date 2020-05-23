@@ -37,6 +37,9 @@ public class APIController implements ErrorController {
     @Value("${api.loveKey}")
     private String loveApiKey;
 
+    @Value("${api.languageKey}")
+    private String languageKey;
+
     @GetMapping(path = "/friendInvites")
     public ArrayList<FriendInvite> getFriendInvites(@RequestParam("id") String userId) throws NotFoundException {
         ArrayList<FriendInvite> friendInvites = repository.getFriendInvites(userId);
@@ -149,6 +152,23 @@ public class APIController implements ErrorController {
             throw new NotFoundException("User has not specified the city.", 404);
         } else {
             String uri = "https://api.weatherbit.io/v2.0/current?city=" + city + "&key=" + weatherApiKey;
+            RestTemplate restTemplate = new RestTemplate();
+            String result = restTemplate.getForObject(uri, String.class);
+
+            return result;
+        }
+    }
+
+    @PostMapping(path = "/language-detect")
+    public @ResponseBody String detectlanguage(@RequestBody Map<String, String> json) throws NotFoundException {
+        String text = json.get("text");
+
+        if (text == null){
+            throw new NotFoundException("Wrong json format.", 400);
+        } else {
+            text = text.replace(" ", "20%");
+            String uri = "http://api.languagelayer.com/detect?access_key=" + languageKey +
+                    "&query=" + text;
             RestTemplate restTemplate = new RestTemplate();
             String result = restTemplate.getForObject(uri, String.class);
 
