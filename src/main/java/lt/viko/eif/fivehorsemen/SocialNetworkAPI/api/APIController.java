@@ -116,7 +116,7 @@ public class APIController implements ErrorController {
     @GetMapping(path = "/friend")
     public ArrayList<Friend> searchForFriend(@RequestParam(name = "fullname") String fullname) {
         ArrayList<Friend> friends = repository.searchUser(fullname);
-        Link link = linkTo(Friend.class).slash("/api/login").withSelfRel();
+        Link link = linkTo(Friend.class).slash("/api/friend").withSelfRel();
         for (Friend f: friends) {
             f.setLink(link);
         }
