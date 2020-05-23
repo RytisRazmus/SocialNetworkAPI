@@ -15,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.zip.DataFormatException;
 
 
 @RequestMapping("/api/")
@@ -36,8 +37,12 @@ public class APIController implements ErrorController {
     }
 
     @PostMapping(path = "/users")
-    public boolean addUser(@RequestBody User user){
-        return repository.addUser(user);
+    public String addUser(@RequestBody User user) throws DataFormatException {
+        boolean success = repository.addUser(user);
+        if (!success) {
+            throw new NotFoundException("Could not insert new User.", 406);
+        }
+        return "User added.";
     }
 
     @PostMapping(path = "/friendInvites")
