@@ -80,7 +80,12 @@ public class APIController implements ErrorController {
 
     @GetMapping(path = "/friends")
     public ArrayList<Friend> getFriends(@RequestParam("id") String userId){
-        return repository.getFriends(userId);
+        Link link = linkTo(Friend.class).slash("/api/friends").withSelfRel();
+        ArrayList<Friend> friends = repository.getFriends(userId);
+        for (Friend f: friends) {
+            f.setLink(link);
+        }
+        return friends;
     }
 
     @PostMapping(path = "/posts")
@@ -109,14 +114,13 @@ public class APIController implements ErrorController {
     }
 
     @GetMapping(path = "/friend")
-    public Friend searchForFriend(@RequestParam(name = "fullname") String fullname) {
-        Friend friend = repository.searchUser(fullname);
-
-        if (friend == null) {
-            throw new NotFoundException("No such user found", 404);
-        } else {
-            return friend;
+    public ArrayList<Friend> searchForFriend(@RequestParam(name = "fullname") String fullname) {
+        ArrayList<Friend> friends = repository.searchUser(fullname);
+        Link link = linkTo(Friend.class).slash("/api/friend").withSelfRel();
+        for (Friend f: friends) {
+            f.setLink(link);
         }
+        return friends;
     }
 
     @DeleteMapping(path = "/friendInvites")

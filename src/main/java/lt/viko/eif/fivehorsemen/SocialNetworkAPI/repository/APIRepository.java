@@ -10,7 +10,7 @@ public interface APIRepository {
 
     boolean deleteFriendInv(String id);
 
-    Friend searchUser(String fullname);
+    ArrayList<Friend> searchUser(String fullname);
 
     boolean acceptFriendInvite(String toUser, String fromUser);
 
