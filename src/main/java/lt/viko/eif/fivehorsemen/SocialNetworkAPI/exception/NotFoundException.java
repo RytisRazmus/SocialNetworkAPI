@@ -1,24 +1,12 @@
 package lt.viko.eif.fivehorsemen.SocialNetworkAPI.exception;
 
-public class NotFoundException extends Exception {
+public class NotFoundException extends RuntimeException {
 
     private int errorCode;
     private String errorMessage;
 
-    public NotFoundException(Throwable throwable) {
-        super(throwable);
-    }
-
-    public NotFoundException(String msg, Throwable throwable) {
-        super(msg, throwable);
-    }
-
-    public NotFoundException(String msg) {
-        super(msg);
-    }
-
     public NotFoundException(String message, int errorCode) {
-        super();
+        super(message);
         this.errorCode = errorCode;
         this.errorMessage = message;
     }
