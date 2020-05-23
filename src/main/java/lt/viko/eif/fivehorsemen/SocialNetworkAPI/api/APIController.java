@@ -12,7 +12,6 @@ import java.util.Map;
 
 @RequestMapping("/")
 @RestController
-@ResponseBody
 public class APIController implements ErrorController {
 
     private APIRepositoryImpl repository = new APIRepositoryImpl();
