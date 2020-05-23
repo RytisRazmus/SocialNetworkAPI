@@ -145,7 +145,12 @@ public class APIController implements ErrorController {
         if (posts.isEmpty()) {
             throw new NotFoundException("Could not find friends posts.", 404);
         } else {
-            return repository.getFriendPosts(id);
+            for (FriendPost x : posts) {
+                Link link = linkTo(FriendPost.class).slash("/api/posts").withSelfRel();
+                x.setLink(link);
+            }
+
+            return posts;
         }
     }
 
