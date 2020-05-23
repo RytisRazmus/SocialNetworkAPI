@@ -1,5 +1,7 @@
 package lt.viko.eif.fivehorsemen.SocialNetworkAPI.data;
 
+import org.springframework.hateoas.Link;
+
 public class User {
     private String id;
     private String email;
@@ -9,6 +11,7 @@ public class User {
     private String lastSeen;
     private String dateOfBirth;
     private String password;
+    private Link link;
 
     public User(String id, String email, String name, String surname, String phoneNumber,
                 String lastSeen, String dateOfBirth, String password) {
@@ -52,5 +55,13 @@ public class User {
 
     public String getPhoneNumber() {
         return phoneNumber;
+    }
+
+    public void setLink(Link link) {
+        this.link = link;
+    }
+
+    public Link getLink() {
+        return link;
     }
 }

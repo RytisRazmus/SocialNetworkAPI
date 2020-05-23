@@ -6,6 +6,7 @@ import lt.viko.eif.fivehorsemen.SocialNetworkAPI.exception.NotFoundException;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.repository.APIRepositoryImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -16,8 +17,10 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.Map;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
-@RequestMapping("/api/")
+
+@RequestMapping(value = "/api/")
 @RestController
 public class APIController implements ErrorController {
 
@@ -85,7 +88,8 @@ public class APIController implements ErrorController {
         String email = json.get("email");
         String password = json.get("password");
         User user = repository.getUser(email, password);
-
+        Link link = linkTo(User.class).slash("/api/login").withSelfRel();
+        user.setLink(link);
         if (user == null) {
             throw new NotFoundException("No such user", 404);
         }
@@ -148,17 +152,6 @@ public class APIController implements ErrorController {
         }
     }
 
-
-    @RequestMapping(value = PATH)
-    public String error() {
-        return "No such url." ;
-    }
-
-    @Override
-    public String getErrorPath() {
-        return PATH;
-    }
-
     @GetMapping(path = "/love")
     public String getLove(@RequestParam(name = "id") String userId, @RequestParam(name = "loveId") String loverId) {
 
@@ -200,5 +193,16 @@ public class APIController implements ErrorController {
         }
 
     }
+
+    @RequestMapping(value = PATH)
+    public String error() {
+        return "No such url." ;
+    }
+
+    @Override
+    public String getErrorPath() {
+        return PATH;
+    }
+
 
 }
