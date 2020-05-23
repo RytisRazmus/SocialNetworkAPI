@@ -5,10 +5,17 @@ import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.*;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.repository.APIRepositoryImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Random;
 
 @RequestMapping("/")
 @RestController
@@ -20,9 +27,6 @@ public class APIController implements ErrorController {
 
     @Value("${api.weatherKey}")
     private String weatherApiKey;
-
-    @Value("${api.loveCalcKey")
-    private String loveCalcKey;
 
     @GetMapping(path = "/friendInvites")
     public ArrayList<FriendInvite> getFriendInvites(@RequestParam("id") String userId){
@@ -99,8 +103,26 @@ public class APIController implements ErrorController {
     }
 
     @GetMapping(path = "/love")
-    public String getLove(@RequestParam(name = "name") String name, @RequestParam(name = "friendName") String friendName) {
-        return null;
+    public String getLove(@RequestParam(name = "id") String userId) {
+        Random random = new Random();
+
+        String name = repository.identifyUser(userId).getName();
+        ArrayList<Friend> friends = repository.getFriends(userId);
+        String uri = "https://love-calculator.p.rapidapi.com/getPercentage?fname=" + name +
+                        "&sname=" + friends.get(random.nextInt(friends.size())).getName();
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("x-rapidapi-host", "love-calculator.p.rapidapi.com");
+        headers.set("x-rapidapi-key", "045de38290mshb58ec6d51d4e6a9p1d0760jsn01c573420a6a");
+
+        HttpEntity entity = new HttpEntity(headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                uri, HttpMethod.GET, entity, String.class);
+
+        return response.getBody();
+
     }
 
 }

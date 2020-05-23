@@ -63,4 +63,9 @@ public class APIRepositoryImpl implements APIRepository {
     public String getCity(String userId) {
         return mySqlConnection.getCity(userId);
     }
+
+    @Override
+    public User identifyUser(String userId) {
+        return mySqlConnection.identifyUser(userId);
+    }
 }
