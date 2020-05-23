@@ -52,8 +52,9 @@ public class MySqlConnection {
         return user;
     }
 
-    public void deleteFriendInv(String id) {
+    public boolean deleteFriendInv(String id) {
         String statement = "DELETE FROM FriendInvite WHERE id = ?";
+        boolean success = false;
 
         try {
             Connection conn = this.connect();
@@ -63,13 +64,15 @@ public class MySqlConnection {
             pstmt.setString(1, id);
 
             pstmt.executeUpdate();
-
+            success = true;
             conn.close();
             pstmt.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return success;
     }
 
     public Friend searchUser(String fullname) {
@@ -106,9 +109,11 @@ public class MySqlConnection {
         return friend;
     }
 
-    public void acceptFriendInvite(String toUser, String fromUser) {
+    public boolean acceptFriendInvite(String toUser, String fromUser) {
         String statement = "INSERT INTO Friend(userId, friendId) VALUES(?, ?)";
         String secStatement = "INSERT INTO Friend(friendId, userId) VALUES(?, ?)";
+
+        boolean success = false;
         try {
             Connection conn = this.connect();
             PreparedStatement pstmt = conn.prepareStatement(statement);
@@ -124,12 +129,16 @@ public class MySqlConnection {
             pstmt.setString(2, fromUser);
 
             pstmt.executeUpdate();
-            pstmt.close();
 
+            success = true;
+
+            pstmt.close();
             conn.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+
+        return success;
     }
 
     public ArrayList<FriendPost> getFriendPosts(String userId) {

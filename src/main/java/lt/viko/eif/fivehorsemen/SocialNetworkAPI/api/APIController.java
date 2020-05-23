@@ -15,9 +15,9 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Random;
 
-@RequestMapping("/api")
+
+@RequestMapping("/api/")
 @RestController
 public class APIController implements ErrorController {
 
@@ -68,13 +68,13 @@ public class APIController implements ErrorController {
     }
 
     @DeleteMapping(path = "/friendInvites")
-    public void deleteFriendInv(@RequestParam(name = "id") String id){
-        repository.deleteFriendInv(id);
+    public boolean deleteFriendInv(@RequestParam(name = "id") String id){
+        return repository.deleteFriendInv(id);
     }
 
     @PostMapping(path = "/friends")
-    public void acceptFriend(@RequestParam(name = "toUser") String toUser, @RequestParam(name = "fromUser") String fromUser){
-        repository.acceptFriendInvite(toUser,fromUser);
+    public boolean acceptFriend(@RequestParam(name = "toUser") String toUser, @RequestParam(name = "fromUser") String fromUser){
+        return repository.acceptFriendInvite(toUser,fromUser);
     }
 
     @GetMapping(path = "/posts")
@@ -109,13 +109,12 @@ public class APIController implements ErrorController {
     }
 
     @GetMapping(path = "/love")
-    public String getLove(@RequestParam(name = "id") String userId) {
-        Random random = new Random();
+    public String getLove(@RequestParam(name = "id") String userId, @RequestParam(name = "loveId") String loverId) {
 
         String name = repository.identifyUser(userId).getName();
-        ArrayList<Friend> friends = repository.getFriends(userId);
+        String secName = repository.identifyUser(loverId).getName();
         String uri = "https://love-calculator.p.rapidapi.com/getPercentage?fname=" + name +
-                        "&sname=" + friends.get(random.nextInt(friends.size())).getName();
+                        "&sname=" + secName;
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();

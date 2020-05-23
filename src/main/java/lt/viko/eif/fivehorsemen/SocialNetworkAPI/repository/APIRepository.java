@@ -8,11 +8,11 @@ public interface APIRepository {
 
     User getUser(String email, String password);
 
-    void deleteFriendInv(String id);
+    boolean deleteFriendInv(String id);
 
     Friend searchUser(String fullname);
 
-    void acceptFriendInvite(String toUser, String fromUser);
+    boolean acceptFriendInvite(String toUser, String fromUser);
 
     ArrayList<FriendPost> getFriendPosts(String userId);
 

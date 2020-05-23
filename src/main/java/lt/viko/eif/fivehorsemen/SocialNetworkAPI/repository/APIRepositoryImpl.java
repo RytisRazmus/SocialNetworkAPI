@@ -15,8 +15,8 @@ public class APIRepositoryImpl implements APIRepository {
     }
 
     @Override
-    public void deleteFriendInv(String id) {
-        mySqlConnection.deleteFriendInv(id);
+    public boolean deleteFriendInv(String id) {
+        return mySqlConnection.deleteFriendInv(id);
     }
 
     @Override
@@ -25,8 +25,8 @@ public class APIRepositoryImpl implements APIRepository {
     }
 
     @Override
-    public void acceptFriendInvite(String toUser, String fromUser) {
-        mySqlConnection.acceptFriendInvite(toUser, fromUser);
+    public boolean acceptFriendInvite(String toUser, String fromUser) {
+        return mySqlConnection.acceptFriendInvite(toUser, fromUser);
     }
 
     @Override
