@@ -35,7 +35,7 @@ public class APIController implements ErrorController {
     public ArrayList<FriendInvite> getFriendInvites(@RequestParam("id") String userId) throws NotFoundException {
         ArrayList<FriendInvite> friendInvites = repository.getFriendInvites(userId);
         if (friendInvites.isEmpty())
-            throw new NotFoundException("could not find friend invites", 404);
+            throw new NotFoundException("Could not find friend invites.", 404);
         else {
             return friendInvites;
         }
@@ -51,10 +51,17 @@ public class APIController implements ErrorController {
     }
 
     @PostMapping(path = "/friendInvites")
-    public boolean sendFriendInvite(@RequestBody Map<String, String> json){
+    public String sendFriendInvite(@RequestBody Map<String, String> json){
         String toUser = json.get("toUser");
         String fromUser = json.get("fromUser");
-        return repository.insertFriendInvite(toUser, fromUser);
+        boolean success = repository.insertFriendInvite(toUser, fromUser);
+
+        if (!success) {
+            throw new NotFoundException("Could not send friend invites.", 406);
+        }
+        else {
+            return "Invite sent.";
+        }
     }
 
     @GetMapping(path = "/friends")
@@ -63,8 +70,15 @@ public class APIController implements ErrorController {
     }
 
     @PostMapping(path = "/posts")
-    public boolean addPost(@RequestBody Post post){
-        return repository.addPost(post);
+    public String addPost(@RequestBody Post post){
+        boolean success = repository.addPost(post);
+
+        if (!success) {
+            throw new NotFoundException("Could not add post.", 406);
+        }
+        else {
+            return "Post added.";
+        }
     }
 
     @GetMapping(path = "/users")
@@ -74,6 +88,7 @@ public class APIController implements ErrorController {
 
     @GetMapping(path = "/friend")
     public Friend searchForFriend(@RequestParam(name = "fullname") String fullname){
+
         return repository.searchUser(fullname);
     }
 
@@ -124,32 +139,12 @@ public class APIController implements ErrorController {
         String name = repository.identifyUser(userId).getName();
         String secName = repository.identifyUser(loverId).getName();
         String uri = "https://love-calculator.p.rapidapi.com/getPercentage?fname=" + name +
-                        "&sname=" + secName;
+                "&sname=" + secName;
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("x-rapidapi-host", "love-calculator.p.rapidapi.com");
         headers.set("x-rapidapi-key", loveApiKey);
-
-        HttpEntity entity = new HttpEntity(headers);
-
-        ResponseEntity<String> response = restTemplate.exchange(
-                uri, HttpMethod.GET, entity, String.class);
-
-        return response.getBody();
-
-    }
-
-    @GetMapping(path = "/verifyMail")
-    public String verifyEmail(@RequestParam(name = "email") String email) {
-
-        String uri = "https://email-validation4.p.rapidapi.com/?email=" + email;
-        RestTemplate restTemplate = new RestTemplate();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("x-rapidapi-host", "email-validation4.p.rapidapi.com");
-        headers.set("x-rapidapi-key", loveApiKey);
-        headers.set("content-type", "application/x-www-form-urlencoded");
 
         HttpEntity entity = new HttpEntity(headers);
 
