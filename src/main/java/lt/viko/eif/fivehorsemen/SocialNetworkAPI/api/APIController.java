@@ -94,9 +94,14 @@ public class APIController implements ErrorController {
     }
 
     @GetMapping(path = "/friend")
-    public Friend searchForFriend(@RequestParam(name = "fullname") String fullname){
+    public Friend searchForFriend(@RequestParam(name = "fullname") String fullname) {
+        Friend friend = repository.searchUser(fullname);
 
-        return repository.searchUser(fullname);
+        if (friend == null) {
+            throw new NotFoundException("No such user found", 404);
+        } else {
+            return friend;
+        }
     }
 
     @DeleteMapping(path = "/friendInvites")
