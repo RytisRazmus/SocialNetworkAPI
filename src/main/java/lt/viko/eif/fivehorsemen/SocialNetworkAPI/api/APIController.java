@@ -120,7 +120,13 @@ public class APIController implements ErrorController {
 
     @GetMapping(path = "/posts")
     public ArrayList<FriendPost> posts(@RequestParam(name = "id") String id) {
-        return repository.getFriendPosts(id);
+        ArrayList<FriendPost> posts = repository.getFriendPosts(id);
+
+        if (posts.isEmpty()) {
+            throw new NotFoundException("Could not find friends posts.", 404);
+        } else {
+            return repository.getFriendPosts(id);
+        }
     }
 
     @GetMapping(path = "/weather")
@@ -154,20 +160,40 @@ public class APIController implements ErrorController {
 
         String name = repository.identifyUser(userId).getName();
         String secName = repository.identifyUser(loverId).getName();
-        String uri = "https://love-calculator.p.rapidapi.com/getPercentage?fname=" + name +
-                "&sname=" + secName;
-        RestTemplate restTemplate = new RestTemplate();
+        if (name == null || secName == null) {
+            throw new NotFoundException("There are no specified users.", 404);
+        } else {
+            String uri = "https://love-calculator.p.rapidapi.com/getPercentage?fname=" + name +
+                    "&sname=" + secName;
+            RestTemplate restTemplate = new RestTemplate();
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("x-rapidapi-host", "love-calculator.p.rapidapi.com");
-        headers.set("x-rapidapi-key", loveApiKey);
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("x-rapidapi-host", "love-calculator.p.rapidapi.com");
+            headers.set("x-rapidapi-key", loveApiKey);
 
-        HttpEntity entity = new HttpEntity(headers);
+            HttpEntity entity = new HttpEntity(headers);
 
-        ResponseEntity<String> response = restTemplate.exchange(
-                uri, HttpMethod.GET, entity, String.class);
+            ResponseEntity<String> response = restTemplate.exchange(
+                    uri, HttpMethod.GET, entity, String.class);
 
-        return response.getBody();
+            return response.getBody();
+        }
+
+    }
+
+    @GetMapping(path = "/verifyMail")
+    public String verifyMail(@RequestParam(name = "email") String email) {
+
+        if (email == "") {
+            throw new NotFoundException("There are no specified users.", 404);
+        } else {
+            String uri = "https://api.mailboxvalidator.com/v1/validation/single?key=" + "W99YN42B0IJQXL3B5LYR" +
+                    "&format=json&email=" + email;
+            RestTemplate restTemplate = new RestTemplate();
+            String result = restTemplate.getForObject(uri, String.class);
+
+            return result;
+        }
 
     }
 
