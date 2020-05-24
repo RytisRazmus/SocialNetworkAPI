@@ -1,6 +1,5 @@
 package lt.viko.eif.fivehorsemen.SocialNetworkAPI.api;
 
-
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.*;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.exception.NotFoundException;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.repository.APIRepositoryImpl;
@@ -19,6 +18,15 @@ import java.util.Map;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
+/**
+ * The APIController class is for handling SocialNetworkAPI logic
+ *
+ * @author Laurynas Zlatkus
+ * @author Rytis Razmus
+ * @author Jonas Zemaitis
+ * @author Evaldas Tamutis
+ * @author Evaldas Zalnierius
+ */
 
 @RequestMapping(value = "/api/")
 @RestController
@@ -36,6 +44,13 @@ public class APIController implements ErrorController {
     @Value("${api.languageKey}")
     private String languageKey;
 
+    /**
+     * Gets a list of new friends invites
+     * @param userId the id of user
+     * @return list of friend invites objects
+     * @throws NotFoundException in case if could not find friend invites
+     */
+
     @GetMapping(path = "/friendInvites")
     public ArrayList<FriendInvite> getFriendInvites(@RequestParam("id") String userId) throws NotFoundException {
         ArrayList<FriendInvite> friendInvites = repository.getFriendInvites(userId);
@@ -51,6 +66,13 @@ public class APIController implements ErrorController {
         }
     }
 
+    /**
+     * Creates a new user account
+     * @param user object which contains information about new user
+     * @return String "User added." if user is successfully created
+     * @throws NotFoundException in case of error creating new user
+     */
+
     @PostMapping(path = "/register")
     public String register(@RequestBody User user) {
         boolean success = repository.addUser(user);
@@ -59,6 +81,13 @@ public class APIController implements ErrorController {
         }
         return "User added.";
     }
+
+    /**
+     * Sends friend request
+     * @param json map of json format containing user names of sender and getter of friend request
+     * @return String of successful completed action
+     * @throws NotFoundException in case of error sending friend request
+     */
 
     @PostMapping(path = "/friendInvites")
     public String sendFriendInvite(@RequestBody Map<String, String> json){
@@ -74,6 +103,12 @@ public class APIController implements ErrorController {
         }
     }
 
+    /**
+     * Gets a list of user friends
+     * @param userId the id of user
+     * @return list of user friends
+     */
+
     @GetMapping(path = "/friends")
     public ArrayList<Friend> getFriends(@RequestParam("id") String userId){
         Link link = linkTo(Friend.class).slash("/api/friends").withSelfRel();
@@ -83,6 +118,13 @@ public class APIController implements ErrorController {
         }
         return friends;
     }
+
+    /**
+     * Creating a new post
+     * @param post object containing information about post
+     * @return String of successful completed action
+     * @throws NotFoundException in case of error posting a new post
+     */
 
     @PostMapping(path = "/posts")
     public String addPost(@RequestBody Post post){
@@ -95,6 +137,13 @@ public class APIController implements ErrorController {
             return "Post added.";
         }
     }
+
+    /**
+     * Login into account
+     * @param json map of json format containing user email and password
+     * @return user object
+     * @throws NotFoundException in case if user do not exist
+     */
 
     @PostMapping(path = "/login")
     public User login(@RequestBody Map<String, String> json){
@@ -109,6 +158,11 @@ public class APIController implements ErrorController {
         return user;
     }
 
+    /**
+     * Search for friends
+     * @param fullname full name of user you are looking for
+     * @return friends with name you are looking for
+     */
     @GetMapping(path = "/friend")
     public ArrayList<Friend> searchForFriend(@RequestParam(name = "fullname") String fullname) {
         ArrayList<Friend> friends = repository.searchUser(fullname);
@@ -119,6 +173,13 @@ public class APIController implements ErrorController {
         return friends;
     }
 
+    /**
+     * Declining friend invite
+     * @param id of declined friend request
+     * @return true if successfully deleted friend request
+     * @throws NotFoundException in case if friend request was not successfully rejected
+     */
+
     @DeleteMapping(path = "/friendInvites")
     public boolean deleteFriendInv(@RequestParam(name = "id") String id){
         boolean success = repository.deleteFriendInv(id);
@@ -127,6 +188,14 @@ public class APIController implements ErrorController {
         }
         return success;
     }
+
+    /**
+     * Accepting friend request
+     * @param toUser name of user who sent friend request
+     * @param fromUser name of user who accepted friend request
+     * @return true if successfully accepted friend request
+     * @throws NotFoundException in case if friend invite was not successfully accepted
+     */
 
     @PostMapping(path = "/friends")
     public boolean acceptFriend(@RequestParam(name = "toUser") String toUser,
@@ -137,6 +206,13 @@ public class APIController implements ErrorController {
         }
         return success;
     }
+
+    /**
+     * Checking of friend posts
+     * @param id of friend
+     * @return list of friend posts
+     * @throws NotFoundException in case if list of post is empty
+     */
 
     @GetMapping(path = "/posts")
     public ArrayList<FriendPost> posts(@RequestParam(name = "id") String id) {
