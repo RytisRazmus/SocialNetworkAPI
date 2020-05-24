@@ -230,6 +230,13 @@ public class APIController implements ErrorController {
         }
     }
 
+    /**
+     * Get weather of your city
+     * @param userId id of user
+     * @return link to your city weather
+     * @throws NotFoundException in case if user have not specified city
+     */
+
     @GetMapping(path = "/weather")
     public @ResponseBody String getWeather(@RequestParam(name = "id") String userId) throws NotFoundException {
 
@@ -244,6 +251,13 @@ public class APIController implements ErrorController {
             return result;
         }
     }
+
+    /**
+     * Detecting language of post
+     * @param json contains text of post
+     * @return link to detect a language
+     * @throws NotFoundException in case of wrong json format
+     */
 
     @PostMapping(path = "/language-detect")
     public @ResponseBody String detectlanguage(@RequestBody Map<String, String> json) throws NotFoundException {
@@ -261,6 +275,14 @@ public class APIController implements ErrorController {
             return result;
         }
     }
+
+    /**
+     * Get a love calculated
+     * @param userId id of user
+     * @param loverId id of lover
+     * @return link to love calculation
+     * @throws NotFoundException in case if one of names is null
+     */
 
     @GetMapping(path = "/love")
     public String getLove(@RequestParam(name = "id") String userId, @RequestParam(name = "loveId") String loverId) {
@@ -288,6 +310,13 @@ public class APIController implements ErrorController {
 
     }
 
+    /**
+     * Verify user email
+     * @param email user email
+     * @return link to verify email
+     * @throws NotFoundException in case if user is not specified
+     */
+
     @GetMapping(path = "/verifyMail")
     public String verifyMail(@RequestParam(name = "email") String email) {
 
@@ -304,10 +333,20 @@ public class APIController implements ErrorController {
 
     }
 
+    /**
+     * Get an error
+     * @return string verification
+     */
+
     @RequestMapping(value = PATH)
     public String error() {
         return "No such url." ;
     }
+
+    /**
+     * Get an error
+     * @return Path of error
+     */
 
     @Override
     public String getErrorPath() {
