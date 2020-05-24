@@ -1,5 +1,7 @@
 package lt.viko.eif.fivehorsemen.SocialNetworkAPI.data;
 
+import org.springframework.hateoas.Link;
+
 import java.util.Date;
 
 public class FriendPost extends Post {
@@ -8,6 +10,7 @@ public class FriendPost extends Post {
     private String surname;
     private Date date;
     private String profileImage;
+    private Link link;
 
     public FriendPost(Date date, String name, String surname, String friendId, String description,
                       String imageUrl, String profileImage) {
@@ -33,5 +36,13 @@ public class FriendPost extends Post {
 
     public String getSurname() {
         return surname;
+    }
+
+    public Link getLink() {
+        return link;
+    }
+
+    public void setLink(Link link) {
+        this.link = link;
     }
 }

@@ -75,7 +75,8 @@ public class MySqlConnection {
         return success;
     }
 
-    public Friend searchUser(String fullname) {
+    public ArrayList<Friend> searchUser(String fullname) {
+        ArrayList<Friend> friends = new ArrayList<>();
         String statement = "SELECT user.id, user.name, user.surname, img.imageUrl as imageUrl " +
                             "FROM User user " +
                             "LEFT JOIN UserImage usrImg ON (usrImg.userId = user.id) " +
@@ -97,6 +98,7 @@ public class MySqlConnection {
             while (rs.next()) {
                 friend = new Friend (rs.getString("user.id"), rs.getString("user.name"),
                                         rs.getString("user.surname"), rs.getString("img.imageUrl"));
+                friends.add(friend);
             }
 
             rs.close();
@@ -106,7 +108,7 @@ public class MySqlConnection {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return friend;
+        return friends;
     }
 
     public boolean acceptFriendInvite(String toUser, String fromUser) {

@@ -6,6 +6,7 @@ import lt.viko.eif.fivehorsemen.SocialNetworkAPI.exception.NotFoundException;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.repository.APIRepositoryImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -13,11 +14,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Map;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
-@RequestMapping("/api/")
+
+@RequestMapping(value = "/api/")
 @RestController
 public class APIController implements ErrorController {
 
@@ -30,12 +37,20 @@ public class APIController implements ErrorController {
     @Value("${api.loveKey}")
     private String loveApiKey;
 
+    @Value("${api.languageKey}")
+    private String languageKey;
+
     @GetMapping(path = "/friendInvites")
     public ArrayList<FriendInvite> getFriendInvites(@RequestParam("id") String userId) throws NotFoundException {
         ArrayList<FriendInvite> friendInvites = repository.getFriendInvites(userId);
         if (friendInvites.isEmpty())
             throw new NotFoundException("Could not find friend invites.", 404);
         else {
+            for (FriendInvite x : friendInvites) {
+                Link link = linkTo(FriendInvite.class).slash("/api/friendInvites").withSelfRel();
+                x.setLink(link);
+            }
+
             return friendInvites;
         }
     }
@@ -65,7 +80,12 @@ public class APIController implements ErrorController {
 
     @GetMapping(path = "/friends")
     public ArrayList<Friend> getFriends(@RequestParam("id") String userId){
-        return repository.getFriends(userId);
+        Link link = linkTo(Friend.class).slash("/api/friends").withSelfRel();
+        ArrayList<Friend> friends = repository.getFriends(userId);
+        for (Friend f: friends) {
+            f.setLink(link);
+        }
+        return friends;
     }
 
     @PostMapping(path = "/posts")
@@ -85,7 +105,8 @@ public class APIController implements ErrorController {
         String email = json.get("email");
         String password = json.get("password");
         User user = repository.getUser(email, password);
-
+        Link link = linkTo(User.class).slash("/api/login").withSelfRel();
+        user.setLink(link);
         if (user == null) {
             throw new NotFoundException("No such user", 404);
         }
@@ -93,14 +114,13 @@ public class APIController implements ErrorController {
     }
 
     @GetMapping(path = "/friend")
-    public Friend searchForFriend(@RequestParam(name = "fullname") String fullname) {
-        Friend friend = repository.searchUser(fullname);
-
-        if (friend == null) {
-            throw new NotFoundException("No such user found", 404);
-        } else {
-            return friend;
+    public ArrayList<Friend> searchForFriend(@RequestParam(name = "fullname") String fullname) {
+        ArrayList<Friend> friends = repository.searchUser(fullname);
+        Link link = linkTo(Friend.class).slash("/api/friend").withSelfRel();
+        for (Friend f: friends) {
+            f.setLink(link);
         }
+        return friends;
     }
 
     @DeleteMapping(path = "/friendInvites")
@@ -129,7 +149,12 @@ public class APIController implements ErrorController {
         if (posts.isEmpty()) {
             throw new NotFoundException("Could not find friends posts.", 404);
         } else {
-            return repository.getFriendPosts(id);
+            for (FriendPost x : posts) {
+                Link link = linkTo(FriendPost.class).slash("/api/posts").withSelfRel();
+                x.setLink(link);
+            }
+
+            return posts;
         }
     }
 
@@ -148,15 +173,21 @@ public class APIController implements ErrorController {
         }
     }
 
+    @PostMapping(path = "/language-detect")
+    public @ResponseBody String detectlanguage(@RequestBody Map<String, String> json) throws NotFoundException {
+        String text = json.get("text");
 
-    @RequestMapping(value = PATH)
-    public String error() {
-        return "No such url." ;
-    }
+        if (text == null){
+            throw new NotFoundException("Wrong json format.", 400);
+        } else {
+            text = text.replace(" ", "20%");
+            String uri = "http://api.languagelayer.com/detect?access_key=" + languageKey +
+                    "&query=" + text;
+            RestTemplate restTemplate = new RestTemplate();
+            String result = restTemplate.getForObject(uri, String.class);
 
-    @Override
-    public String getErrorPath() {
-        return PATH;
+            return result;
+        }
     }
 
     @GetMapping(path = "/love")
@@ -200,5 +231,16 @@ public class APIController implements ErrorController {
         }
 
     }
+
+    @RequestMapping(value = PATH)
+    public String error() {
+        return "No such url." ;
+    }
+
+    @Override
+    public String getErrorPath() {
+        return PATH;
+    }
+
 
 }
