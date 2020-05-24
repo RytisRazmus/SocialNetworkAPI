@@ -4,16 +4,26 @@ import lt.viko.eif.fivehorsemen.SocialNetworkAPI.repository.APIRepositoryImpl;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.hateoas.Link;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
-class FriendTest {
+class FriendTest{
 
     private Friend friend;
     @BeforeEach
     void setUp(){
         friend = new Friend("1","Evaldas","Tamutis",
                 "https://www.cutoutme.com.au/wp-content/uploads/2018/07/Single-CHls.jpg");
+        HttpServletRequest httpServletRequestMock = new MockHttpServletRequest();
+        ServletRequestAttributes servletRequestAttributes = new ServletRequestAttributes(httpServletRequestMock);
+        RequestContextHolder.setRequestAttributes(servletRequestAttributes);
     }
 
     @Test
@@ -39,5 +49,20 @@ class FriendTest {
     void getImageUrl() {
         String response = friend.getImageUrl();
         assertEquals("https://www.cutoutme.com.au/wp-content/uploads/2018/07/Single-CHls.jpg",response);
+    }
+    @Test
+    void getLink(){
+        Link link = linkTo(Friend.class).slash("/api/friends").withSelfRel();
+        friend.setLink(link);
+        Link response = friend.getLink();
+        assertEquals(link,response);
+    }
+
+    @Test
+    void setLink(){
+        Link link = linkTo(Friend.class).slash("/api/friends").withSelfRel();
+        friend.setLink(link);
+        assertEquals(link,friend.getLink());
+
     }
 }
