@@ -9,9 +9,11 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.hateoas.Link;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.client.RestTemplate;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,6 +28,8 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
 class APIControllerTest {
+    @Value("${api.weatherKey}")
+    private String weatherApiKey;
 
     @InjectMocks
     private APIController apiController;
@@ -135,8 +139,11 @@ class APIControllerTest {
 
     @Test
     void getWeather() {
-
-
+        String city = "Vilnius";
+        String uri = "https://api.weatherbit.io/v2.0/current?city=" + city + "&key=" + weatherApiKey;
+        RestTemplate restTemplate = new RestTemplate();
+        String result = restTemplate.getForObject(uri, String.class);
+        assertThat(result).isNotNull();
     }
 
     @Test
@@ -149,6 +156,7 @@ class APIControllerTest {
 
     @Test
     void verifyMail() {
+
     }
 
     @Test
