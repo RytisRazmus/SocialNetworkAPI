@@ -12,6 +12,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.hateoas.Link;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 import java.text.DateFormat;
@@ -30,6 +34,9 @@ import static org.mockito.Mockito.when;
 class APIControllerTest {
     @Value("${api.weatherKey}")
     private String weatherApiKey;
+
+    @Value("${api.loveKey}")
+    private String loveApiKey;
 
     @InjectMocks
     private APIController apiController;
@@ -152,6 +159,22 @@ class APIControllerTest {
 
     @Test
     void getLove() {
+        String name = "Evaldas";
+        String secName = "Mantryda";
+        String uri = "https://love-calculator.p.rapidapi.com/getPercentage?fname=" + name +
+                "&sname=" + secName;
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("x-rapidapi-host", "love-calculator.p.rapidapi.com");
+        headers.set("x-rapidapi-key", loveApiKey);
+
+        HttpEntity entity = new HttpEntity(headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                uri, HttpMethod.GET, entity, String.class);
+        assertEquals(200,response.getStatusCodeValue());
+
     }
 
     @Test
