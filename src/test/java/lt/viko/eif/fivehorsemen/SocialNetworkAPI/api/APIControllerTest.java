@@ -2,6 +2,7 @@ package lt.viko.eif.fivehorsemen.SocialNetworkAPI.api;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.*;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.Friend;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.repository.APIRepositoryImpl;
+import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
@@ -32,14 +33,11 @@ class APIControllerTest {
     @Mock
     private APIRepositoryImpl repository;
 
-<<<<<<< HEAD
     @Before
     private void setUp() {
 
     }
 
-=======
->>>>>>> c6177dee1719a23386755e6763bfacfd5bb92bf0
     @Test
     void getFriendInvites() {
         FriendInvite friendInv = new FriendInvite("1", "Evaldas", "Tamutis", "https://" +
