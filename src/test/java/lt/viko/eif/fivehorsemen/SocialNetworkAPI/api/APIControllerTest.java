@@ -32,11 +32,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
 class APIControllerTest {
-    @Value("${api.weatherKey}")
-    private String weatherApiKey;
 
-    @Value("${api.loveKey}")
-    private String loveApiKey;
 
     @InjectMocks
     private APIController apiController;
@@ -44,10 +40,6 @@ class APIControllerTest {
     @Mock
     private APIRepositoryImpl repository;
 
-    @Before
-    private void setUp() {
-
-    }
 
     @Test
     void getFriendInvites() {
@@ -68,7 +60,9 @@ class APIControllerTest {
     void register() {
         User user = new User("1", "laurynas.zlatkus@gmail.com", "Laurynas", "Zlatkus",
                 "911", "2020-01-15 18:25:16", "2020-05-15", "123456");
-
+        when(repository.addUser(user)).thenReturn(true);
+        String result = apiController.register(user);
+        assertEquals(result,"User added.");
 
     }
 
@@ -144,6 +138,15 @@ class APIControllerTest {
         assertEquals(result,posts);
     }
 
+    @Value("${api.weatherKey}")
+    private String weatherApiKey;
+
+    @Value("${api.loveKey}")
+    private String loveApiKey;
+
+    @Value("${api.languageKey}")
+    private String languageKey;
+
     @Test
     void getWeather() {
         String city = "Vilnius";
@@ -155,6 +158,14 @@ class APIControllerTest {
 
     @Test
     void detectlanguage() {
+
+        String text = "Laba diena su vištiena";
+        text = text.replace(" ", "20%");
+        String uri = "http://api.languagelayer.com/detect?access_key=" + languageKey +
+                "&query=" + text;
+        RestTemplate restTemplate = new RestTemplate();
+        String result = restTemplate.getForObject(uri, String.class);
+        assertThat(result).isNotNull();
     }
 
     @Test
