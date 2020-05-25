@@ -1,6 +1,4 @@
 package lt.viko.eif.fivehorsemen.SocialNetworkAPI.api;
-
-
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.*;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.exception.NotFoundException;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.repository.APIRepositoryImpl;
