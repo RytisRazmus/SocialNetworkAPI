@@ -2,7 +2,6 @@ package lt.viko.eif.fivehorsemen.SocialNetworkAPI.api;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.*;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.Friend;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.repository.APIRepositoryImpl;
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
@@ -33,11 +32,14 @@ class APIControllerTest {
     @Mock
     private APIRepositoryImpl repository;
 
+<<<<<<< HEAD
     @Before
     private void setUp() {
 
     }
 
+=======
+>>>>>>> c6177dee1719a23386755e6763bfacfd5bb92bf0
     @Test
     void getFriendInvites() {
         FriendInvite friendInv = new FriendInvite("1", "Evaldas", "Tamutis", "https://" +
@@ -54,7 +56,7 @@ class APIControllerTest {
     }
 
     @Test
-    void register() throws Exception {
+    void register() {
         User user = new User("1", "laurynas.zlatkus@gmail.com", "Laurynas", "Zlatkus",
                 "911", "2020-01-15 18:25:16", "2020-05-15", "123456");
 
@@ -66,7 +68,7 @@ class APIControllerTest {
     }
 
     @Test
-    void getFriends() throws Exception {
+    void getFriends() {
         Friend friend = new Friend("1", "Evaldas", "Tamutis",
                 "https://www.cutoutme.com.au/wp-content/uploads/2018/07/Single-CHls.jpg");
         Friend friend1 = new Friend("2", "Andrius", "Rimiškis",
