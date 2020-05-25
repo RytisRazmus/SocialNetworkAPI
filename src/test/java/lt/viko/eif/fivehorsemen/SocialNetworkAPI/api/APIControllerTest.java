@@ -156,7 +156,12 @@ class APIControllerTest {
 
     @Test
     void verifyMail() {
-
+        String email = "Laurynas.zlatkus@gmail.com";
+        String uri = "https://api.mailboxvalidator.com/v1/validation/single?key=" + "W99YN42B0IJQXL3B5LYR" +
+                "&format=json&email=" + email;
+        RestTemplate restTemplate = new RestTemplate();
+        String result = restTemplate.getForObject(uri, String.class);
+        assertThat(result).isNotNull();
     }
 
     @Test
