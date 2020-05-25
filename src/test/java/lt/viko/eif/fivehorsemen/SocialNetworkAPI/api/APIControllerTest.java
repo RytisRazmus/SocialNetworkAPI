@@ -1,10 +1,6 @@
 package lt.viko.eif.fivehorsemen.SocialNetworkAPI.api;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.Friend;
+import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.*;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.repository.APIRepositoryImpl;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,40 +8,24 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.hateoas.Link;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.client.ExpectedCount;
-import org.springframework.test.web.client.MockRestServiceServer;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.ws.Response;
-
-import java.net.URI;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
-import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 
 @RunWith(SpringRunner.class)
 @ExtendWith(MockitoExtension.class)
@@ -60,19 +40,31 @@ class APIControllerTest {
 
     @Test
     @Before
-    private void setUp(){
+    private void setUp() {
         HttpServletRequest httpServletRequestMock = new MockHttpServletRequest();
         ServletRequestAttributes servletRequestAttributes = new ServletRequestAttributes(httpServletRequestMock);
         RequestContextHolder.setRequestAttributes(servletRequestAttributes);
 
     }
+
     @Test
     void getFriendInvites() {
-
+        FriendInvite friendInv = new FriendInvite("1", "Evaldas", "Tamutis", "https://" +
+                "www.cutoutme.com.au/wp-content/uploads/2018/07/Single-CHls.jpg", "1");
+        FriendInvite friendInv1 = new FriendInvite("2", "Elon", "Musk", "https://" +
+                "www.cutoutme.com.au/wp-content/uploads/2018/07/Single-CHls.jpg", "2");
+        ArrayList<FriendInvite> friendInvites = new ArrayList<>();
+        friendInvites.add(friendInv);
+        friendInvites.add(friendInv1);
+        when(repository.getFriendInvites("1")).thenReturn(friendInvites);
+        ArrayList<FriendInvite> result = apiController.getFriendInvites("1");
+        assertThat(result.size()).isEqualTo(2);
+        assertEquals(result, friendInvites);
     }
 
     @Test
-    void register() {
+    void register() throws Exception {
+
     }
 
     @Test
@@ -81,39 +73,41 @@ class APIControllerTest {
 
     @Test
     void getFriends() throws Exception {
-
-        Friend friend = new Friend("1","Evaldas","Tamutis",
+        Friend friend = new Friend("1", "Evaldas", "Tamutis",
                 "https://www.cutoutme.com.au/wp-content/uploads/2018/07/Single-CHls.jpg");
-        Friend friend1 = new Friend("2","Andrius","Rimiškis",
+        Friend friend1 = new Friend("2", "Andrius", "Rimiškis",
+                "https://www.cutoutme.com.au/wp-content/uploads/2018/07/Single-CHls.jpg");
+        ArrayList<Friend> friends = new ArrayList<>();
+        friends.add(friend);
+        friends.add(friend1);
+        when(repository.getFriends("1")).thenReturn(friends);
+        ArrayList<Friend> result = apiController.getFriends("1");
+        assertThat(result.size()).isEqualTo(2);
+        assertEquals(result, friends);
+    }
+
+    @Test
+    void addPost() {
+
+    }
+
+    @Test
+    void login() {
+        User user = new User("1", "laurynas.zlatkus@gmail.com", "Laurynas", "Zlatkus",
+                "911", "2020-01-15 18:25:16", "2020-05-15", "123456");
+    }
+
+    @Test
+    void searchForFriend() {
+        Friend friend = new Friend("1", "Evaldas", "Tamutis",
                 "https://www.cutoutme.com.au/wp-content/uploads/2018/07/Single-CHls.jpg");
         Link link = linkTo(Friend.class).slash("/api/friends").withSelfRel();
         friend.setLink(link);
         ArrayList<Friend> friends = new ArrayList<>();
         friends.add(friend);
-        friends.add(friend1);
-        when(repository.getFriends("1")).thenReturn(friends);
-
-        ArrayList<Friend> result = apiController.getFriends("1");
-
-        assertThat(result.size()).isEqualTo(2);
-
-        assertThat(result.get(0).getName())
-                .isEqualTo(friend.getName());
-        assertThat(result.get(1).getName())
-                .isEqualTo(friend1.getName());
-
-    }
-
-    @Test
-    void addPost() {
-    }
-
-    @Test
-    void login() {
-    }
-
-    @Test
-    void searchForFriend() {
+        when(repository.searchUser("Evaldas")).thenReturn(friends);
+        ArrayList<Friend> result = apiController.searchForFriend("Evaldas");
+        assertEquals(result,friends);
     }
 
     @Test
@@ -125,11 +119,30 @@ class APIControllerTest {
     }
 
     @Test
-    void posts() {
+    void posts() throws ParseException {
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date myDate = format.parse("2020-05-14");
+        String dmy = format.format(myDate);
+        FriendPost friendPost = new FriendPost(myDate, "Laurynas", "Zlatkus", "1",
+                "Maciau gera pana.", "https://upload.wikimedia.org/wikipedia/commons/0/0c/Cow" +
+                "_female_black_white.jpg", "https://i.pinimg.com/474x/ff/5d/06/ff5d0624c089399d5736f8ce" +
+                "0cc5ebeb.jpg");
+        FriendPost friendPost1 = new FriendPost(myDate, "Evaldas", "Tamutis", "2",
+                "Maciau gera pana.", "https://upload.wikimedia.org/wikipedia/commons/0/0c/Cow" +
+                "_female_black_white.jpg", "https://i.pinimg.com/474x/ff/5d/06/ff5d0624c089399d5736f8ce" +
+                "0cc5ebeb.jpg");
+        ArrayList<FriendPost> posts = new ArrayList<>();
+        posts.add(friendPost);
+        posts.add(friendPost1);
+        when(repository.getFriendPosts("1")).thenReturn(posts);
+        ArrayList<FriendPost> result = apiController.posts("1");
+        assertEquals(result,posts);
     }
 
     @Test
     void getWeather() {
+
+
     }
 
     @Test
@@ -146,9 +159,14 @@ class APIControllerTest {
 
     @Test
     void error() {
+        String error = "No such url.";
+        assertEquals(error, apiController.error());
     }
 
-    @Test
-    void getErrorPath() {
+        @Test
+        void getErrorPath () {
+        String path = "/error";
+        assertEquals(path,apiController.getErrorPath());
+        }
     }
-}
+

@@ -11,6 +11,14 @@ public class Post {
         this.imageUrl = imageUrl;
     }
 
+    @Override
+    public String toString() {
+        return "Post{" +
+                "userId='" + userId + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 
     public String getUserId() {
         return userId;

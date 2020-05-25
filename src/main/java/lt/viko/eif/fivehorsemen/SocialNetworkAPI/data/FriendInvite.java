@@ -12,6 +12,14 @@ public class FriendInvite extends Friend {
         this.inviteId = inviteId;
     }
 
+    @Override
+    public String toString() {
+        return "FriendInvite{" +
+                "inviteId='" + inviteId + '\'' +
+                ", link=" + link +
+                '}';
+    }
+
     public String getInviteId() {
         return inviteId;
     }
