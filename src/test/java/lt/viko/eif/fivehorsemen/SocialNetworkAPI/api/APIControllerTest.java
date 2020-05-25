@@ -2,7 +2,6 @@ package lt.viko.eif.fivehorsemen.SocialNetworkAPI.api;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.*;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.Friend;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.repository.APIRepositoryImpl;
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
@@ -11,11 +10,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.hateoas.Link;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import javax.servlet.http.HttpServletRequest;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -40,15 +35,6 @@ class APIControllerTest {
     APIRepositoryImpl repository;
 
     @Test
-    @Before
-    private void setUp() {
-        HttpServletRequest httpServletRequestMock = new MockHttpServletRequest();
-        ServletRequestAttributes servletRequestAttributes = new ServletRequestAttributes(httpServletRequestMock);
-        RequestContextHolder.setRequestAttributes(servletRequestAttributes);
-
-    }
-
-    @Test
     void getFriendInvites() {
         FriendInvite friendInv = new FriendInvite("1", "Evaldas", "Tamutis", "https://" +
                 "www.cutoutme.com.au/wp-content/uploads/2018/07/Single-CHls.jpg", "1");
@@ -64,7 +50,7 @@ class APIControllerTest {
     }
 
     @Test
-    void register() throws Exception {
+    void register() {
         User user = new User("1", "laurynas.zlatkus@gmail.com", "Laurynas", "Zlatkus",
                 "911", "2020-01-15 18:25:16", "2020-05-15", "123456");
         String savedUser = apiController.register(user);
@@ -77,7 +63,7 @@ class APIControllerTest {
     }
 
     @Test
-    void getFriends() throws Exception {
+    void getFriends() {
         Friend friend = new Friend("1", "Evaldas", "Tamutis",
                 "https://www.cutoutme.com.au/wp-content/uploads/2018/07/Single-CHls.jpg");
         Friend friend1 = new Friend("2", "Andrius", "Rimiškis",
