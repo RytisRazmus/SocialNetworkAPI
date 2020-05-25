@@ -1,10 +1,6 @@
 package lt.viko.eif.fivehorsemen.SocialNetworkAPI.api;
-<<<<<<< HEAD
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.*;
-=======
-
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.Friend;
->>>>>>> 0935b39209e18ce316d776ee0ba9988ef6e68742
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.repository.APIRepositoryImpl;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
@@ -20,26 +16,17 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
-<<<<<<< HEAD
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-=======
-
->>>>>>> 0935b39209e18ce316d776ee0ba9988ef6e68742
 import java.util.ArrayList;
 import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
-<<<<<<< HEAD
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
-=======
 import static org.mockito.Mockito.when;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
->>>>>>> 0935b39209e18ce316d776ee0ba9988ef6e68742
 
 @RunWith(SpringRunner.class)
 @ExtendWith(MockitoExtension.class)
@@ -78,6 +65,10 @@ class APIControllerTest {
 
     @Test
     void register() throws Exception {
+        User user = new User("1", "laurynas.zlatkus@gmail.com", "Laurynas", "Zlatkus",
+                "911", "2020-01-15 18:25:16", "2020-05-15", "123456");
+        String savedUser = apiController.register(user);
+        assertEquals(savedUser,"User added.");
 
     }
 
