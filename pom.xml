@@ -64,20 +64,12 @@
 			<artifactId>spring-hateoas</artifactId>
 			<version>0.3.0.RELEASE</version>
 		</dependency>
-<<<<<<< HEAD
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
-=======
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
->>>>>>> 0935b39209e18ce316d776ee0ba9988ef6e68742
-
 
     </dependencies>
 
