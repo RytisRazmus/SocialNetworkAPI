@@ -1,7 +1,7 @@
 # SocialNetworkAPI
 
-Your project name is SocialNetworkAPI. This API is about reading your friend posts and posting posts.
-This API have some additional functions like getting city weather, detecting post language, calculating
+Project name is SocialNetworkAPI. This API is about reading your friend posts and posting posts.
+There are some additional functions like getting city weather, detecting post language, calculating
 love with specific user.
 
 ## Getting Started
@@ -13,7 +13,6 @@ These are needed software for project
 * [IntelliJ IDEA Community edition](https://www.jetbrains.com/idea/download/#section=windows)
 * [Apache Tomcat®](https://tomcat.apache.org/download-90.cgi)
 * [Git Bash](https://git-scm.com/downloads)
-* 
 
 ## Built with
 
