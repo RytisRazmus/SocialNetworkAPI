@@ -1,7 +1,5 @@
 package lt.viko.eif.fivehorsemen.SocialNetworkAPI.data;
 
-import lt.viko.eif.fivehorsemen.SocialNetworkAPI.repository.APIRepositoryImpl;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.hateoas.Link;
