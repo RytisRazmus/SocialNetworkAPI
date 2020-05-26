@@ -1,4 +1,5 @@
 package lt.viko.eif.fivehorsemen.SocialNetworkAPI.api;
+
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.*;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.Friend;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.repository.APIRepositoryImpl;
@@ -41,6 +42,14 @@ class APIControllerTest {
     @Mock
     private APIRepositoryImpl repository;
 
+    @Value("${api.weatherKey}")
+    private String weatherApiKey;
+
+    @Value("${api.loveKey}")
+    private String loveApiKey;
+
+    @Value("${api.languageKey}")
+    private String languageKey;
 
     @Test
     void getFriendInvites() {
@@ -79,7 +88,6 @@ class APIControllerTest {
         when(repository.addUser(user)).thenReturn(true);
         String result = apiController.register(user);
         assertEquals(result,"User added.");
-
     }
 
     @Test
@@ -132,7 +140,6 @@ class APIControllerTest {
         when(repository.deleteFriendInv("1")).thenReturn(true);
         Boolean result = apiController.deleteFriendInv("1");
         assertThat(result).isTrue();
-
     }
 
     @Test
@@ -164,15 +171,6 @@ class APIControllerTest {
         ArrayList<FriendPost> result = apiController.posts("1");
         assertEquals(result,posts);
     }
-
-    @Value("${api.weatherKey}")
-    private String weatherApiKey;
-
-    @Value("${api.loveKey}")
-    private String loveApiKey;
-
-    @Value("${api.languageKey}")
-    private String languageKey;
 
     @Test
     void getWeather() {
@@ -214,7 +212,6 @@ class APIControllerTest {
         ResponseEntity<String> response = restTemplate.exchange(
                 uri, HttpMethod.GET, entity, String.class);
         assertEquals(200,response.getStatusCodeValue());
-
     }
 
     @Test
@@ -233,10 +230,10 @@ class APIControllerTest {
         assertEquals(error, apiController.error());
     }
 
-        @Test
-        void getErrorPath () {
+    @Test
+    void getErrorPath () {
         String path = "/error";
         assertEquals(path,apiController.getErrorPath());
-        }
     }
+}
 

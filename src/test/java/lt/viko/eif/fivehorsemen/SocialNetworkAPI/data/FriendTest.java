@@ -15,6 +15,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 class FriendTest{
 
     private Friend friend;
+
     @BeforeEach
     void setUp(){
         friend = new Friend("1","Evaldas","Tamutis",
@@ -26,7 +27,6 @@ class FriendTest{
 
     @Test
     void getId() {
-
         String response = friend.getId();
         assertEquals("1",response);
     }
@@ -61,6 +61,5 @@ class FriendTest{
         Link link = linkTo(Friend.class).slash("/api/friends").withSelfRel();
         friend.setLink(link);
         assertEquals(link,friend.getLink());
-
     }
 }

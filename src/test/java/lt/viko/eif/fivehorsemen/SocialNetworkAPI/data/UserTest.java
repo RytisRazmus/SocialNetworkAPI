@@ -15,6 +15,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 class UserTest {
 
     private User user;
+
     @BeforeEach
     void setUp(){
         user = new User("1","laurynas.zlatkus@gmail.com","Laurynas","Zlatkus",
