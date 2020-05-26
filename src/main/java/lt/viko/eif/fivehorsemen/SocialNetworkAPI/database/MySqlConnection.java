@@ -10,10 +10,21 @@ public class MySqlConnection {
     static String PASSWORD = "tumasonis";
     static String DB_URL = "jdbc:mysql://78.61.168.194:3306/cityTransport";
 
+    private boolean testing = false;
+
+    public void setTesting(boolean testing) {
+        this.testing = testing;
+    }
+
     private Connection connect () {
         Connection conn = null;
         try {
-            conn = DriverManager.getConnection(DB_URL,USER,PASSWORD);
+            if(testing)
+                conn = DriverManager.getConnection("jdbc:mysql://localhost/cityTransport?serverTimezone=GMT",
+                        "root", "");
+            else {
+                conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
