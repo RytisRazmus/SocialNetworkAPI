@@ -1,9 +1,5 @@
 package lt.viko.eif.fivehorsemen.SocialNetworkAPI.repository;
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.Friend;
-import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.FriendInvite;
-import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.FriendPost;
-import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.User;
+import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.*;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.database.MySqlConnection;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,22 +8,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.hateoas.Link;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 @RunWith(SpringRunner.class)
 @ExtendWith(MockitoExtension.class)
@@ -47,14 +36,6 @@ class APIRepositoryImplTest {
         when(mySqlConnection.getUser("laurynas.zlatkus@gmail.com","123465")).thenReturn(user);
         User result = repository.getUser("laurynas.zlatkus@gmail.com","123465");
         assertEquals(user,result);
-
-    }
-
-    @Test
-    void deleteFriendInv() {
-        when(mySqlConnection.deleteFriendInv("1")).thenReturn(true);
-        Boolean result = repository.deleteFriendInv("1");
-        assertThat(result).isTrue();
     }
 
     @Test
@@ -66,6 +47,13 @@ class APIRepositoryImplTest {
         when(mySqlConnection.searchUser("Evaldas")).thenReturn(friends);
         ArrayList<Friend> result = repository.searchUser("Evaldas");
         assertEquals(result,friends);
+    }
+
+    @Test
+    void deleteFriendInv() {
+        when(mySqlConnection.deleteFriendInv("1")).thenReturn(true);
+        Boolean result = repository.deleteFriendInv("1");
+        assertThat(result).isTrue();
     }
 
     @Test
@@ -146,13 +134,27 @@ class APIRepositoryImplTest {
 
     @Test
     void addPost() {
+        Post post =new Post("1","Pavargau" ,"https://www.cuto" +
+                "utme.com.au/wp-content/uploads/2018/07/Single-CHls.jpg");
+        when(mySqlConnection.addPost(post)).thenReturn(true);
+        boolean result = repository.addPost(post);
+        assertEquals(result,true);
     }
 
     @Test
     void getCity() {
+        String city = "Vilnius";
+        when(mySqlConnection.getCity("1")).thenReturn(city);
+        String result = repository.getCity("1");
+        assertEquals(result,city);
     }
 
     @Test
     void identifyUser() {
+        User user = new User("1", "laurynas.zlatkus@gmail.com", "Laurynas", "Zlatkus",
+                "911", "2020-01-15 18:25:16", "2020-05-15", "123456");
+        when(mySqlConnection.identifyUser("1")).thenReturn(user);
+        User result = repository.identifyUser("1");
+        assertEquals(result,user);
     }
 }
