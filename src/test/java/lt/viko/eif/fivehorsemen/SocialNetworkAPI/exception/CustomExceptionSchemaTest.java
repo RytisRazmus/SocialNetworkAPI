@@ -7,7 +7,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CustomExceptionSchemaTest {
 
-    CustomExceptionSchema CES;
+    private CustomExceptionSchema CES;
+
     @BeforeEach
     void setUp(){
         CES = new CustomExceptionSchema("Not Found",404);

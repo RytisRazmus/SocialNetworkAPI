@@ -18,12 +18,12 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 class FriendPostTest {
 
-    FriendPost friendPost;
+    private FriendPost friendPost;
+
     @BeforeEach
     void setUp() throws ParseException {
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Date myDate = format.parse("2020-05-14");
-        String dmy = format.format(myDate);
 
         friendPost = new FriendPost(myDate,"Laurynas","Zlatkus","1",
                 "Maciau gera pana.","https://upload.wikimedia.org/wikipedia/commons/0/0c/Cow" +
