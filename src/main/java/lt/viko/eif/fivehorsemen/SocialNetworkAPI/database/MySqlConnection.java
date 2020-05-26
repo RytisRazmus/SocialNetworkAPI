@@ -5,6 +5,16 @@ import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.*;
 import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ * The MySqlConnection class is for connection and work with database
+ *
+ * @author Laurynas Zlatkus
+ * @author Rytis Razmus
+ * @author Jonas Zemaitis
+ * @author Evaldas Tamutis
+ * @author Evaldas Zalnierius
+ */
+
 public class MySqlConnection {
     static String USER = "lopai";
     static String PASSWORD = "tumasonis";
@@ -15,6 +25,11 @@ public class MySqlConnection {
     public void setTesting(boolean testing) {
         this.testing = testing;
     }
+
+    /**
+     * Object for connecting to database
+     * @return connection to database server
+     */
 
     private Connection connect () {
         Connection conn = null;
@@ -31,6 +46,13 @@ public class MySqlConnection {
 
         return conn;
     }
+
+    /**
+     * Get user data from database with it email and password
+     * @param email user email
+     * @param password user password
+     * @return user object
+     */
 
     public User getUser(String email, String password){
         String statement = "SELECT id, email, name, surname, password, phoneNumber, lastSeen," +
@@ -63,6 +85,12 @@ public class MySqlConnection {
         return user;
     }
 
+    /**
+     * Delete friend invite
+     * @param id id of friend
+     * @return true if successfully deleted
+     */
+
     public boolean deleteFriendInv(String id) {
         String statement = "DELETE FROM FriendInvite WHERE id = ?";
         boolean success = false;
@@ -85,6 +113,12 @@ public class MySqlConnection {
 
         return success;
     }
+
+    /**
+     * Search of user
+     * @param fullname full name of user
+     * @return list of users with same name
+     */
 
     public ArrayList<Friend> searchUser(String fullname) {
         ArrayList<Friend> friends = new ArrayList<>();
@@ -122,6 +156,12 @@ public class MySqlConnection {
         return friends;
     }
 
+    /**
+     * Accept friends invite
+     * @param toUser user id who sent request
+     * @param fromUser user id who accepted request
+     * @return true if successfully accepted
+     */
     public boolean acceptFriendInvite(String toUser, String fromUser) {
         String statement = "INSERT INTO Friend(userId, friendId) VALUES(?, ?)";
         String secStatement = "INSERT INTO Friend(friendId, userId) VALUES(?, ?)";
@@ -153,6 +193,12 @@ public class MySqlConnection {
 
         return success;
     }
+
+    /**
+     * Get friend post
+     * @param userId friend id
+     * @return list of friend posts
+     */
 
     public ArrayList<FriendPost> getFriendPosts(String userId) {
         String statement = "SELECT post.date, f2.name, f2.surname, f2.id, im.imageURL as 'profileImage', content.description," +
@@ -195,6 +241,12 @@ public class MySqlConnection {
 
     }
 
+    /**
+     * Get friend invites list
+     * @param userId user id
+     * @return List of friend invites
+     */
+
     public ArrayList<FriendInvite> getFriendInvites(String userId) {
         ArrayList<FriendInvite> friendInvites = new ArrayList<>();
         try {
@@ -228,6 +280,12 @@ public class MySqlConnection {
         return friendInvites;
     }
 
+    /**
+     * User registration
+     * @param user user object
+     * @return true if registration successful
+     */
+
     public boolean addUser(User user) {
         boolean success = false;
         try {
@@ -251,6 +309,13 @@ public class MySqlConnection {
         return success;
     }
 
+    /**
+     * Send friend invite
+     * @param toUser receiver user id
+     * @param fromUser sender user id
+     * @return true if send was successful
+     */
+
     public boolean insertFriendInvite(String toUser, String fromUser) {
         boolean success = false;
         try {
@@ -269,6 +334,12 @@ public class MySqlConnection {
         }
         return success;
     }
+
+    /**
+     * Get list of friends
+     * @param userId User id
+     * @return List of friends
+     */
 
     public ArrayList<Friend> getFriends(String userId) {
         ArrayList<Friend> friends = new ArrayList<>();
@@ -301,6 +372,12 @@ public class MySqlConnection {
         return friends;
     }
 
+    /**
+     * Add post
+     * @param post post object
+     * @return true if post added successfully
+     */
+
     public boolean addPost(Post post) {
         boolean success = false;
 
@@ -328,6 +405,11 @@ public class MySqlConnection {
         return success;
     }
 
+    /**
+     * Get user city
+     * @param userId user id
+     * @return a String of user city
+     */
     public String getCity(String userId) {
         String city = "";
         try {
@@ -352,6 +434,12 @@ public class MySqlConnection {
         }
         return city;
     }
+
+    /**
+     * Identification of user
+     * @param userId user id
+     * @return user object
+     */
 
     public User identifyUser(String userId) {
         String statement = "SELECT * FROM User WHERE User.id = ?";
