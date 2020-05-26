@@ -2,24 +2,25 @@ package lt.viko.eif.fivehorsemen.SocialNetworkAPI.database;
 
 import ch.vorburger.exec.ManagedProcessException;
 import ch.vorburger.mariadb4j.DB;
-import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.User;
-import org.junit.jupiter.api.BeforeEach;
+import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.*;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.sql.*;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MySqlConnectionTest {
 
-    private MySqlConnection mySqlConnection;
-    private Connection connection;
+    private static MySqlConnection mySqlConnection;
+    private static Connection connection;
 
-    @BeforeEach
-    public void setUp() throws ManagedProcessException {
+    @BeforeAll
+    public static void setUp() throws ManagedProcessException {
         mySqlConnection = new MySqlConnection();
 
         DB database = DB.newEmbeddedDB(3306);
@@ -31,10 +32,10 @@ public class MySqlConnectionTest {
         setupDatabase();
     }
 
-    private void setupDatabase(){
+    private static void setupDatabase(){
         try {
             File f = new File(System.getProperty("user.dir") +
-                    "/src/test/java/lt/viko/eif/fivehorsemen/SocialNetworkAPI/resource/Dump.sql");
+                    "/src/test/java/lt/viko/eif/fivehorsemen/SocialNetworkAPI/resources/Dump.sql");
 
             connection = DriverManager.getConnection("jdbc:mysql://localhost/cityTransport?serverTimezone=GMT",
                     "root", "");
@@ -59,49 +60,75 @@ public class MySqlConnectionTest {
 
     @Test
     public void getUser() {
+        User response = mySqlConnection.getUser("gogelis.mogelis@yahoo.com", "11223369");
+        assertEquals("Googelis", response.getName());
     }
 
     @Test
     public void deleteFriendInv() {
+        boolean result = mySqlConnection.deleteFriendInv("1");
+        assertTrue(result);
     }
 
     @Test
     public void searchUser() {
+        ArrayList<Friend> results = mySqlConnection.searchUser("Googelis");
+        assertTrue(results.size() > 0);
     }
 
     @Test
     public void acceptFriendInvite() {
+        boolean result = mySqlConnection.acceptFriendInvite("3", "9");
+        assertTrue(result);
     }
 
     @Test
     public void getFriendPosts() {
+        ArrayList<FriendPost> results = mySqlConnection.getFriendPosts("2");
+        assertTrue(results.get(0).getDescription().contains("su merginomis"));
     }
 
     @Test
     public void getFriendInvites() {
+        ArrayList<FriendInvite> results = mySqlConnection.getFriendInvites("3");
+        assertEquals("36", results.get(0).getInviteId());
     }
 
     @Test
     public void addUser() {
+        User newUser = new User("16", "sdfdkds", "dfds", "dsfsd", "65556",
+                null, "2000-01-28", "111");
+        assertTrue(mySqlConnection.addUser(newUser));
     }
 
     @Test
     public void insertFriendInvite() {
+        boolean result = mySqlConnection.insertFriendInvite("1", "2");
+        assertTrue(result);
     }
 
     @Test
     public void getFriends() {
+        ArrayList<Friend> result = mySqlConnection.getFriends("2");
+        assertEquals("Rytis", result.get(1).getName());
     }
 
     @Test
     public void addPost() {
+        Post newPost = new Post("2", "Testing!", "www.google.com");
+        boolean result = mySqlConnection.addPost(newPost);
+        assertTrue(result);
     }
 
     @Test
     public void getCity() {
+        String result = mySqlConnection.getCity("2");
+        assertEquals("Vilnius", result);
     }
 
     @Test
     public void identifyUser() {
+        User response = mySqlConnection.identifyUser("2");
+        assertEquals("Jonas", response.getName());
     }
 }
