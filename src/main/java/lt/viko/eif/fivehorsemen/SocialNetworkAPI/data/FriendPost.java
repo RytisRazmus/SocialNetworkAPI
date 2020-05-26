@@ -43,6 +43,17 @@ public class FriendPost extends Post {
         this.profileImage = profileImage;
     }
 
+    @Override
+    public String toString() {
+        return "FriendPost{" +
+                "name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", date=" + date +
+                ", profileImage='" + profileImage + '\'' +
+                ", link=" + link +
+                '}';
+    }
+  
     /**
      * Gets date of post
      * @return a String

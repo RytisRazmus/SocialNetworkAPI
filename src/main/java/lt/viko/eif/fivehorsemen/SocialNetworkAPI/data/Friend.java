@@ -34,6 +34,17 @@ public class Friend {
         this.imageUrl = imageUrl;
     }
 
+    @Override
+    public String toString() {
+        return "Friend{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", link=" + link +
+                '}';
+    }
+
     /**
      * Gets friends id
      * @return a String

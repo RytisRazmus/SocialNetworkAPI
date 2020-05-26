@@ -27,6 +27,15 @@ public class Post {
         this.description = description;
         this.imageUrl = imageUrl;
     }
+  
+    @Override
+    public String toString() {
+        return "Post{" +
+                "userId='" + userId + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 
     /**
      * Gets post user id
