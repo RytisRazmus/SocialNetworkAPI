@@ -1,4 +1,5 @@
 package lt.viko.eif.fivehorsemen.SocialNetworkAPI.repository;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.Friend;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.FriendInvite;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.FriendPost;
@@ -19,6 +20,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -112,15 +115,33 @@ class APIRepositoryImplTest {
 
     @Test
     void addUser() {
-
+        User user = new User("1", "laurynas.zlatkus@gmail.com", "Laurynas", "Zlatkus",
+                "911", "2020-01-15 18:25:16", "2020-05-15", "123456");
+        when(mySqlConnection.addUser(user)).thenReturn(true);
+        Boolean result = repository.addUser(user);
+        assertEquals(result,true);
     }
 
     @Test
     void insertFriendInvite() {
+        when(mySqlConnection.insertFriendInvite("laurynas","Evaldas")).thenReturn(true);
+        boolean result = repository.insertFriendInvite("laurynas","Evaldas");
+        assertEquals(result,true);
     }
 
     @Test
     void getFriends() {
+        Friend friend = new Friend("1", "Evaldas", "Tamutis",
+                "https://www.cutoutme.com.au/wp-content/uploads/2018/07/Single-CHls.jpg");
+        Friend friend1 = new Friend("2", "Andrius", "Rimiškis",
+                "https://www.cutoutme.com.au/wp-content/uploads/2018/07/Single-CHls.jpg");
+        ArrayList<Friend> friends = new ArrayList<>();
+        friends.add(friend);
+        friends.add(friend1);
+        when(mySqlConnection.getFriends("1")).thenReturn(friends);
+        ArrayList<Friend> result = repository.getFriends("1");
+        assertThat(result.size()).isEqualTo(2);
+        assertEquals(result, friends);
     }
 
     @Test
