@@ -30,6 +30,16 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.mockito.Mockito.when;
 
+/**
+ * The APIController class tests
+ *
+ * @author Laurynas Zlatkus
+ * @author Rytis Razmus
+ * @author Jonas Zemaitis
+ * @author Evaldas Tamutis
+ * @author Evaldas Zalnierius
+ */
+
 @RunWith(SpringRunner.class)
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
@@ -51,6 +61,10 @@ class APIControllerTest {
     @Value("${api.languageKey}")
     private String languageKey;
 
+    /**
+     * Test of getFriendInvites from APIController class
+     */
+
     @Test
     void getFriendInvites() {
         FriendInvite friendInv = new FriendInvite("1", "Evaldas", "Tamutis", "https://" +
@@ -65,6 +79,10 @@ class APIControllerTest {
         assertThat(result.size()).isEqualTo(2);
         assertEquals(result, friendInvites);
     }
+
+    /**
+     * Test of getFriends from APIController class
+     */
 
     @Test
     void getFriends() {
@@ -81,6 +99,10 @@ class APIControllerTest {
         assertEquals(result, friends);
     }
 
+    /**
+     * Test of register from APIController class
+     */
+
     @Test
     void register() {
         User user = new User("1", "laurynas.zlatkus@gmail.com", "Laurynas", "Zlatkus",
@@ -89,6 +111,10 @@ class APIControllerTest {
         String result = apiController.register(user);
         assertEquals(result,"User added.");
     }
+
+    /**
+     * Test of sendFriendInvite from APIController class
+     */
 
     @Test
     void sendFriendInvite() {
@@ -100,6 +126,9 @@ class APIControllerTest {
         assertEquals(result,"Invite sent.");
     }
 
+    /**
+     * Test of addPost from APIController class
+     */
 
     @Test
     void addPost() {
@@ -109,6 +138,10 @@ class APIControllerTest {
         String result = apiController.addPost(post);
         assertEquals(result,"Post added.");
     }
+
+    /**
+     * Test of login from APIController class
+     */
 
     @Test
     void login() {
@@ -121,6 +154,10 @@ class APIControllerTest {
         User result = apiController.login(map);
         assertEquals(result,user);
     }
+
+    /**
+     * Test of searchForFriend from APIController class
+     */
 
     @Test
     void searchForFriend() {
@@ -135,12 +172,20 @@ class APIControllerTest {
         assertEquals(result,friends);
     }
 
+    /**
+     * Test of deleteFriendInv from APIController class
+     */
+
     @Test
     void deleteFriendInv() {
         when(repository.deleteFriendInv("1")).thenReturn(true);
         Boolean result = apiController.deleteFriendInv("1");
         assertThat(result).isTrue();
     }
+
+    /**
+     * Test of acceptFriend from APIController class
+     */
 
     @Test
     void acceptFriend() {
@@ -150,6 +195,10 @@ class APIControllerTest {
         boolean result = apiController.acceptFriend(toUser,fromUser);
         assertThat(result).isTrue();
     }
+
+    /**
+     * Test of posts from APIController class
+     */
 
     @Test
     void posts() throws ParseException {
@@ -172,6 +221,10 @@ class APIControllerTest {
         assertEquals(result,posts);
     }
 
+    /**
+     * Test of getWeather from APIController class
+     */
+
     @Test
     void getWeather() {
         String city = "Vilnius";
@@ -180,6 +233,10 @@ class APIControllerTest {
         String result = restTemplate.getForObject(uri, String.class);
         assertThat(result).isNotNull();
     }
+
+    /**
+     * Test of detectLanguage from APIController class
+     */
 
     @Test
     void detectlanguage() {
@@ -194,6 +251,10 @@ class APIControllerTest {
         String result = "text";
         assertThat(result).isNotNull();
     }
+
+    /**
+     * Test of getLove from APIController class
+     */
 
     @Test
     void getLove() {
@@ -214,6 +275,10 @@ class APIControllerTest {
         assertEquals(200,response.getStatusCodeValue());
     }
 
+    /**
+     * Test of verifyMail from APIController class
+     */
+
     @Test
     void verifyMail() {
         String email = "Laurynas.zlatkus@gmail.com";
@@ -224,11 +289,19 @@ class APIControllerTest {
         assertThat(result).isNotNull();
     }
 
+    /**
+     * Test of error from APIController class
+     */
+
     @Test
     void error() {
         String error = "No such url.";
         assertEquals(error, apiController.error());
     }
+
+    /**
+     * Test of getErrorPath from APIController class
+     */
 
     @Test
     void getErrorPath () {

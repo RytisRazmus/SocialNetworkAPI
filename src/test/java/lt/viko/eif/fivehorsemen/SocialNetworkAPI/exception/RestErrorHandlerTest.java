@@ -6,7 +6,21 @@ import org.springframework.http.ResponseEntity;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * The RestErrorHandler class tests
+ *
+ * @author Laurynas Zlatkus
+ * @author Rytis Razmus
+ * @author Jonas Zemaitis
+ * @author Evaldas Tamutis
+ * @author Evaldas Zalnierius
+ */
+
 public class RestErrorHandlerTest {
+
+    /**
+     * Test of handleAllException from RestErrorHandler class
+     */
 
     @Test
     public void handleAllExceptions() {

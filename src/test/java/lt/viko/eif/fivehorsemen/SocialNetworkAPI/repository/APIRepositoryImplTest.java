@@ -1,4 +1,5 @@
 package lt.viko.eif.fivehorsemen.SocialNetworkAPI.repository;
+
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.*;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.database.MySqlConnection;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+/**
+ * The APIRepositoryImpl class tests
+ *
+ * @author Laurynas Zlatkus
+ * @author Rytis Razmus
+ * @author Jonas Zemaitis
+ * @author Evaldas Tamutis
+ * @author Evaldas Zalnierius
+ */
+
 @RunWith(SpringRunner.class)
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
@@ -29,6 +40,10 @@ class APIRepositoryImplTest {
     @Mock
     private MySqlConnection mySqlConnection;
 
+    /**
+     * Test of getUser from APIRepositoryImpl class
+     */
+
     @Test
     void getUser() {
         User user = new User("1", "laurynas.zlatkus@gmail.com", "Laurynas", "Zlatkus",
@@ -37,6 +52,10 @@ class APIRepositoryImplTest {
         User result = repository.getUser("laurynas.zlatkus@gmail.com","123465");
         assertEquals(user,result);
     }
+
+    /**
+     * Test of searchUser from APIRepositoryImpl class
+     */
 
     @Test
     void searchUser() {
@@ -49,12 +68,20 @@ class APIRepositoryImplTest {
         assertEquals(result,friends);
     }
 
+    /**
+     * Test of deleteFriendInv from APIRepositoryImpl class
+     */
+
     @Test
     void deleteFriendInv() {
         when(mySqlConnection.deleteFriendInv("1")).thenReturn(true);
         Boolean result = repository.deleteFriendInv("1");
         assertThat(result).isTrue();
     }
+
+    /**
+     * Test of acceptFriendInvite from APIRepositoryImpl class
+     */
 
     @Test
     void acceptFriendInvite() {
@@ -64,6 +91,10 @@ class APIRepositoryImplTest {
         boolean result = repository.acceptFriendInvite(toUser,fromUser);
         assertThat(result).isTrue();
     }
+
+    /**
+     * Test of getFriendPosts from APIRepositoryImpl class
+     */
 
     @Test
     void getFriendPosts() throws ParseException {
@@ -86,6 +117,10 @@ class APIRepositoryImplTest {
         assertEquals(result,posts);
     }
 
+    /**
+     * Test of getFriendInvites from APIRepositoryImpl class
+     */
+
     @Test
     void getFriendInvites() {
         FriendInvite friendInv = new FriendInvite("1", "Evaldas", "Tamutis", "https://" +
@@ -101,6 +136,10 @@ class APIRepositoryImplTest {
         assertEquals(result, friendInvites);
     }
 
+    /**
+     * Test of addUser from APIRepositoryImpl class
+     */
+
     @Test
     void addUser() {
         User user = new User("1", "laurynas.zlatkus@gmail.com", "Laurynas", "Zlatkus",
@@ -110,12 +149,20 @@ class APIRepositoryImplTest {
         assertEquals(result,true);
     }
 
+    /**
+     * Test of insertFriendInvites from APIRepositoryImpl class
+     */
+
     @Test
     void insertFriendInvite() {
         when(mySqlConnection.insertFriendInvite("laurynas","Evaldas")).thenReturn(true);
         boolean result = repository.insertFriendInvite("laurynas","Evaldas");
         assertEquals(result,true);
     }
+
+    /**
+     * Test of getFriends from APIRepositoryImpl class
+     */
 
     @Test
     void getFriends() {
@@ -132,6 +179,10 @@ class APIRepositoryImplTest {
         assertEquals(result, friends);
     }
 
+    /**
+     * Test of addPost from APIRepositoryImpl class
+     */
+
     @Test
     void addPost() {
         Post post =new Post("1","Pavargau" ,"https://www.cuto" +
@@ -141,6 +192,10 @@ class APIRepositoryImplTest {
         assertEquals(result,true);
     }
 
+    /**
+     * Test of getCity from APIRepositoryImpl class
+     */
+
     @Test
     void getCity() {
         String city = "Vilnius";
@@ -148,6 +203,10 @@ class APIRepositoryImplTest {
         String result = repository.getCity("1");
         assertEquals(result,city);
     }
+
+    /**
+     * Test of identifyUser from APIRepositoryImpl class
+     */
 
     @Test
     void identifyUser() {
