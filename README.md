@@ -1,12 +1,11 @@
 # SocialNetworkAPI
 
-Project name is SocialNetworkAPI. This API is about reading your friend posts and posting posts.
-There are some additional functions like getting city weather, detecting post language, calculating
-love with specific user.
+SocialNetworkAPI is an API designed for social networking. It allows to register users, add friends, posts, check the weather in the city where the user lives, see posts made by your friends, detect the language it's users are using and more!
+
 
 ## Getting Started
 
-These are needed software for project
+Software used for the project.
 
 ### Prerequisites
 
