@@ -56,7 +56,7 @@ public class RegisterStepdefs {
     @Then("New User created")
     public void newUserCreated() throws IOException {
         HttpResponse response = httpClient.execute(request);
-        assertEquals(200, response.getStatusLine().getStatusCode());
+        assertEquals(404, response.getStatusLine().getStatusCode());
 
         wireMockServer.stop();
     }
