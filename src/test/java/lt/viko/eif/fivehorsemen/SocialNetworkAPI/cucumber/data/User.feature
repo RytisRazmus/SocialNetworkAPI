@@ -17,8 +17,8 @@ Feature: User
 
   Scenario: Get user's Id
     Given Existing user
-    When Asks for password
-    Then Received password
+    When Asks for Id
+    Then Received Id
 
   Scenario: Get user's Email
     Given Existing user
@@ -45,7 +45,7 @@ Feature: User
     When Asks for links
     Then Received links
 
-  Scenario: Set user's Id
+  Scenario: Set user's Resource Links
     Given Existing user
-    When Provides for links
+    When Provides links
     Then Links sent
