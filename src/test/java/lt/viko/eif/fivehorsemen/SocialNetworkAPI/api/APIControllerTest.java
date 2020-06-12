@@ -45,7 +45,6 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 class APIControllerTest {
 
-
     @InjectMocks
     private APIController apiController;
 

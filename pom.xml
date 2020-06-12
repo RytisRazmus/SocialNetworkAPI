@@ -94,6 +94,14 @@
 			<scope>test</scope>
 		</dependency>
 
+<!--		WIRE MOCK-->
+		<dependency>
+			<groupId>com.github.tomakehurst</groupId>
+			<artifactId>wiremock-jre8</artifactId>
+			<version>2.26.3</version>
+			<scope>test</scope>
+		</dependency>
+
     </dependencies>
 
 	<build>
