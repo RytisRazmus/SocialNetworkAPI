@@ -12,9 +12,23 @@ import javax.servlet.http.HttpServletRequest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
+/**
+ * The FriendInvite class tests
+ *
+ * @author Laurynas Zlatkus
+ * @author Rytis Razmus
+ * @author Jonas Zemaitis
+ * @author Evaldas Tamutis
+ * @author Evaldas Zalnierius
+ */
+
 public class FriendInviteTest {
 
     private FriendInvite friendInv;
+
+    /**
+     * SetUp for tests
+     */
 
     @BeforeEach
     void setUp(){
@@ -24,11 +38,19 @@ public class FriendInviteTest {
         RequestContextHolder.setRequestAttributes(servletRequestAttributes);
     }
 
+    /**
+     * Test of getInviteId from FriendInvite class
+     */
+
     @Test
     public void getInviteId() {
         String response = friendInv.getInviteId();
         assertEquals("36",response);
     }
+
+    /**
+     * Test of getLink from FriendInvite class
+     */
 
     @Test
     public void getLink() {
@@ -37,6 +59,10 @@ public class FriendInviteTest {
         Link response = friendInv.getLink();
         assertEquals(link,response);
     }
+
+    /**
+     * Test of setLink from FriendInvite class
+     */
 
     @Test
     public void setLink() {

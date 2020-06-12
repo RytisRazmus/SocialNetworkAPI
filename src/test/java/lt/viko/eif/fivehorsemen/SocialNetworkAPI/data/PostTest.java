@@ -5,9 +5,24 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * The Post class tests
+ *
+ * @author Laurynas Zlatkus
+ * @author Rytis Razmus
+ * @author Jonas Zemaitis
+ * @author Evaldas Tamutis
+ * @author Evaldas Zalnierius
+ */
+
+
 public class PostTest {
 
     private Post post;
+
+    /**
+     * SetUp for tests
+     */
 
     @BeforeEach
     void setUp(){
@@ -15,11 +30,19 @@ public class PostTest {
                 "https://static.eurovision.tv/hb-cgi/images/8fd8837b-fb88-461b-8ac7-412b3612146e/hero.jpeg");
     }
 
+    /**
+     * Test of getUserId from Post class
+     */
+
     @Test
     public void getUserId() {
         String response = post.getUserId();
         assertEquals("2",response);
     }
+
+    /**
+     * Test of getImageUrl from Post class
+     */
 
     @Test
     public void getImageUrl() {
@@ -27,6 +50,10 @@ public class PostTest {
         assertEquals("https://static.eurovision.tv/hb-cgi/images/8fd8837b-fb88-461b-8ac7-412b3612146e/hero.jpeg"
                 ,response);
     }
+
+    /**
+     * Test of getDescription from Post class
+     */
 
     @Test
     public void getDescription() {

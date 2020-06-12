@@ -16,9 +16,23 @@ import java.util.Date;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
+/**
+ * The FriendPost class tests
+ *
+ * @author Laurynas Zlatkus
+ * @author Rytis Razmus
+ * @author Jonas Zemaitis
+ * @author Evaldas Tamutis
+ * @author Evaldas Zalnierius
+ */
+
 class FriendPostTest {
 
     private FriendPost friendPost;
+
+    /**
+     * SetUp for tests
+     */
 
     @BeforeEach
     void setUp() throws ParseException {
@@ -35,6 +49,10 @@ class FriendPostTest {
         RequestContextHolder.setRequestAttributes(servletRequestAttributes);
     }
 
+    /**
+     * Test of getDate from FriendPost class
+     */
+
     @Test
     void getDate() {
         SimpleDateFormat dmyFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -43,11 +61,19 @@ class FriendPostTest {
         assertEquals("2020-05-14",response);
     }
 
+    /**
+     * Test of getProfileImage from FriendPost class
+     */
+
     @Test
     void getProfileImage() {
         String response = friendPost.getProfileImage();
         assertEquals("https://i.pinimg.com/474x/ff/5d/06/ff5d0624c089399d5736f8ce0cc5ebeb.jpg",response);
     }
+
+    /**
+     * Test of getName from FriendPost class
+     */
 
     @Test
     void getName() {
@@ -55,11 +81,19 @@ class FriendPostTest {
         assertEquals("Laurynas",response);
     }
 
+    /**
+     * Test of getSurname from FriendPost class
+     */
+
     @Test
     void getSurname() {
         String response = friendPost.getSurname();
         assertEquals("Zlatkus",response);
     }
+
+    /**
+     * Test of getLink from FriendPost class
+     */
 
     @Test
     void getLink(){
@@ -68,6 +102,10 @@ class FriendPostTest {
         Link response = friendPost.getLink();
         assertEquals(link,response);
     }
+
+    /**
+     * Test of setLink from FriendPost class
+     */
 
     @Test
     void setLink(){

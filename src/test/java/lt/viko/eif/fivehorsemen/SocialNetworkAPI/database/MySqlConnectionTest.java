@@ -14,10 +14,24 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * The MySqlConnection class tests
+ *
+ * @author Laurynas Zlatkus
+ * @author Rytis Razmus
+ * @author Jonas Zemaitis
+ * @author Evaldas Tamutis
+ * @author Evaldas Zalnierius
+ */
+
 public class MySqlConnectionTest {
 
     private static MySqlConnection mySqlConnection;
     private static Connection connection;
+
+    /**
+     * SetUp for tests
+     */
 
     @BeforeAll
     public static void setUp() throws ManagedProcessException {
@@ -31,6 +45,10 @@ public class MySqlConnectionTest {
 
         setupDatabase();
     }
+
+    /**
+     * Test of setupDatabase from MySqlConnection class
+     */
 
     private static void setupDatabase(){
         try {
@@ -58,11 +76,19 @@ public class MySqlConnectionTest {
         }
     }
 
+    /**
+     * Test of getUser from MySqlConnection class
+     */
+
     @Test
     public void getUser() {
         User response = mySqlConnection.getUser("gogelis.mogelis@yahoo.com", "11223369");
         assertEquals("Googelis", response.getName());
     }
+
+    /**
+     * Test of deleteFriendInv from MySqlConnection class
+     */
 
     @Test
     public void deleteFriendInv() {
@@ -70,11 +96,19 @@ public class MySqlConnectionTest {
         assertTrue(result);
     }
 
+    /**
+     * Test of searchUser from MySqlConnection class
+     */
+
     @Test
     public void searchUser() {
         ArrayList<Friend> results = mySqlConnection.searchUser("Googelis");
         assertTrue(results.size() > 0);
     }
+
+    /**
+     * Test of acceptFriendInvite from MySqlConnection class
+     */
 
     @Test
     public void acceptFriendInvite() {
@@ -82,17 +116,29 @@ public class MySqlConnectionTest {
         assertTrue(result);
     }
 
+    /**
+     * Test of getFriendPosts from MySqlConnection class
+     */
+
     @Test
     public void getFriendPosts() {
         ArrayList<FriendPost> results = mySqlConnection.getFriendPosts("2");
         assertTrue(results.get(0).getDescription().contains("su merginomis"));
     }
 
+    /**
+     * Test of getFriendInvites from MySqlConnection class
+     */
+
     @Test
     public void getFriendInvites() {
         ArrayList<FriendInvite> results = mySqlConnection.getFriendInvites("3");
         assertEquals("36", results.get(0).getInviteId());
     }
+
+    /**
+     * Test of addUser from MySqlConnection class
+     */
 
     @Test
     public void addUser() {
@@ -101,17 +147,29 @@ public class MySqlConnectionTest {
         assertTrue(mySqlConnection.addUser(newUser));
     }
 
+    /**
+     * Test of insertFriendInvite from MySqlConnection class
+     */
+
     @Test
     public void insertFriendInvite() {
         boolean result = mySqlConnection.insertFriendInvite("1", "2");
         assertTrue(result);
     }
 
+    /**
+     * Test of getFriends from MySqlConnection class
+     */
+
     @Test
     public void getFriends() {
         ArrayList<Friend> result = mySqlConnection.getFriends("2");
         assertEquals("Rytis", result.get(1).getName());
     }
+
+    /**
+     * Test of addPost from MySqlConnection class
+     */
 
     @Test
     public void addPost() {
@@ -120,11 +178,19 @@ public class MySqlConnectionTest {
         assertTrue(result);
     }
 
+    /**
+     * Test of getCity from MySqlConnection class
+     */
+
     @Test
     public void getCity() {
         String result = mySqlConnection.getCity("2");
         assertEquals("Vilnius", result);
     }
+
+    /**
+     * Test of identifyUser from MySqlConnection class
+     */
 
     @Test
     public void identifyUser() {
