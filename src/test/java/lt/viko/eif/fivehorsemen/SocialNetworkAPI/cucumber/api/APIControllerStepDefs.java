@@ -1,4 +1,4 @@
-package lt.viko.eif.fivehorsemen.SocialNetworkAPI.resources.api;
+package lt.viko.eif.fivehorsemen.SocialNetworkAPI.cucumber.api;
 
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
@@ -37,7 +37,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 @RunWith(MockitoJUnitRunner.class)
-public class APIControllerF {
+public class APIControllerStepDefs {
 
     @InjectMocks
     private lt.viko.eif.fivehorsemen.SocialNetworkAPI.api.APIController apiController;
