@@ -261,6 +261,7 @@ public class APIController implements ErrorController {
 
     @PostMapping(path = "/language-detect")
     public @ResponseBody String detectlanguage(@RequestBody Map<String, String> json) throws NotFoundException {
+
         String text = json.get("text");
 
         if (text == null){

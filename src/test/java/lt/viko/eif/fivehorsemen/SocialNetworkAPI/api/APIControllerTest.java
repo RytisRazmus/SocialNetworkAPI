@@ -238,7 +238,7 @@ class APIControllerTest {
      */
 
     @Test
-    void detectlanguage() {
+    void detectLanguage() {
 
         Map<String, String> map = new HashMap<>();
         map.put("text", "Noriu valgyt");
