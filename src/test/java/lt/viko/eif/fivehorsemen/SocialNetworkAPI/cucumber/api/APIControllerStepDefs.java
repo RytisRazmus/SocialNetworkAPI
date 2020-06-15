@@ -21,7 +21,6 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-
 import javax.servlet.http.HttpServletRequest;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -132,11 +131,6 @@ public class APIControllerStepDefs {
         assertThat(friendInvites.size()).isEqualTo(1);
     }
 
-    @Given("User is logged in")
-    public void userIsLoggedIn() {
-        this.userId = "3";
-    }
-
     @When("User enters friend id")
     public void userEntersFriendId() {
         when(repository.insertFriendInvite("1", userId)).thenReturn(true);
@@ -150,11 +144,6 @@ public class APIControllerStepDefs {
         map.put("fromUser", userId);
         String result = apiController.sendFriendInvite(map);
         assertEquals(result,"Invite sent.");
-    }
-
-    @Given("User id")
-    public void userId() {
-        this.userId = "3";
     }
 
     @When("User has friends")
@@ -174,11 +163,6 @@ public class APIControllerStepDefs {
         ArrayList<Friend> result = apiController.getFriends(userId);
         assertThat(result.size()).isEqualTo(2);
         assertEquals(result, friends);
-    }
-
-    @Given("User selects add post")
-    public void userSelectsAddPost() {
-        this.userId = "3";
     }
 
     @When("User enters necessary post data")
@@ -281,7 +265,7 @@ public class APIControllerStepDefs {
 
 
     @Given("User has specified his living location")
-    public void userHasSpecifiedHisLivingLocation() throws ParseException {
+    public void userHasSpecifiedHisLivingLocation() {
         city = "Vilnius";
     }
 
@@ -301,7 +285,6 @@ public class APIControllerStepDefs {
     public void clientEntersSomeText() {
         map = new HashMap<>();
         map.put("text", "Aš žinau ką veikei aną vasarą.");
-
     }
 
     @Then("The language is returned based on the text")
@@ -336,7 +319,6 @@ public class APIControllerStepDefs {
 
     @Then("Love percent is returned")
     public void loveIsReturned() {
-
         assertEquals(200, statusCode);
     }
 

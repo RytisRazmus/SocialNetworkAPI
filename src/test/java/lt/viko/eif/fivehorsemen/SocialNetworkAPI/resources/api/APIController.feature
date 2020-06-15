@@ -16,17 +16,17 @@ Feature: APIControllerF
     Then User sees friend invites
 
   Scenario: Send friend invite
-    Given User is logged in
+    Given User has an id
     When User enters friend id
     Then Friend invite is sent
 
   Scenario: Get friend list
-    Given User id
+    Given User has an id
     When User has friends
     Then Show friends
 
   Scenario: Add post
-    Given User selects add post
+    Given User has an id
     When User enters necessary post data
     Then User adds a post
 
