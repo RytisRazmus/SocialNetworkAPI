@@ -8,6 +8,16 @@ import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.User;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Post object test
+ *
+ * @author Laurynas Zlatkus
+ * @author Rytis Razmus
+ * @author Jonas Zemaitis
+ * @author Evaldas Tamutis
+ * @author Evaldas Zalnierius
+ */
+
 public class PostStepdefs {
 
     Post post;
