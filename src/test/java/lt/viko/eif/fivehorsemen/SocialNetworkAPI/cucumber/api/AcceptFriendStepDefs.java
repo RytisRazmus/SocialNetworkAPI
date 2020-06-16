@@ -29,8 +29,6 @@ public class AcceptFriendStepDefs {
     @Mock
     private APIRepositoryImpl repository;
 
-
-
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);

@@ -1,4 +1,3 @@
-@FriendInvites
 Feature: Get users friend invites
 
   Scenario: Get friend invites

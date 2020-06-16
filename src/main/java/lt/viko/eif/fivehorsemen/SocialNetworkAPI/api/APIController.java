@@ -150,11 +150,12 @@ public class APIController implements ErrorController {
         String email = json.get("email");
         String password = json.get("password");
         User user = repository.getUser(email, password);
-        Link link = linkTo(User.class).slash("/api/login").withSelfRel();
-        user.setLink(link);
+
         if (user == null) {
             throw new NotFoundException("No such user.", 404);
         }
+        Link link = linkTo(User.class).slash("/api/login").withSelfRel();
+        user.setLink(link);
         return user;
     }
 
