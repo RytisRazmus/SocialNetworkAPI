@@ -1,4 +1,5 @@
-Feature: FriendInvite
+
+Feature: FriendInvites
 
   Scenario: Get future friend's id
     Given Existing user and friend invite

@@ -4,11 +4,8 @@ import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.cucumber.junit.Cucumber;
-import io.cucumber.junit.CucumberOptions;
-import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.FriendInvite;
+import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.Friend;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.repository.APIRepositoryImpl;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -17,13 +14,13 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-@RunWith(Cucumber.class)
-public class FriendInvitesStepDefs {
+public class SendFriendInviteStepDef {
 
     @InjectMocks
     private lt.viko.eif.fivehorsemen.SocialNetworkAPI.api.APIController apiController;
@@ -41,24 +38,22 @@ public class FriendInvitesStepDefs {
         RequestContextHolder.setRequestAttributes(servletRequestAttributes);
     }
 
-    @Given("User is registered in the system")
+    @Given("User is registered in the system *")
     public void userHasAnId() {
         this.userId = "3";
     }
 
-    @When("User looks for friend invites")
-    public void userLooksForFriendInvites() {
-        FriendInvite friendInv1 = new FriendInvite("9", "Not Bruce", "Not Wayne", null,
-                "46");
-        ArrayList<FriendInvite> invites = new ArrayList<>();
-        invites.add(friendInv1);
-        when(repository.getFriendInvites(userId)).thenReturn(invites);
-
+    @When("User enters friend id")
+    public void userEntersFriendId() {
+        when(repository.insertFriendInvite("1", userId)).thenReturn(true);
     }
 
-    @Then("User sees friend invites")
-    public void userSeesFriendInvites() {
-        ArrayList<FriendInvite> friendInvites = apiController.getFriendInvites(userId);
-        assertThat(friendInvites.size()).isEqualTo(1);
+    @Then("Friend invite is sent")
+    public void friendInviteIsSent() {
+        Map<String, String> map = new HashMap<>();
+        map.put("toUser", "1");
+        map.put("fromUser", userId);
+        String result = apiController.sendFriendInvite(map);
+        assertEquals(result,"Invite sent.");
     }
 }

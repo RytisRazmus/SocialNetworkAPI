@@ -1,14 +1,9 @@
 package lt.viko.eif.fivehorsemen.SocialNetworkAPI.cucumber.api;
 
 import io.cucumber.java.Before;
-import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.cucumber.junit.Cucumber;
-import io.cucumber.junit.CucumberOptions;
-import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.FriendInvite;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.repository.APIRepositoryImpl;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -17,21 +12,18 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
 
-@RunWith(Cucumber.class)
-public class FriendInvitesStepDefs {
+public class DetectLanguageStepDefs {
+
+    private String result;
+    private Map<String, String> map = new HashMap<>();
 
     @InjectMocks
     private lt.viko.eif.fivehorsemen.SocialNetworkAPI.api.APIController apiController;
-
-    @Mock
-    private APIRepositoryImpl repository;
-
-    private String userId;
 
     @Before
     public void setUp() {
@@ -41,24 +33,15 @@ public class FriendInvitesStepDefs {
         RequestContextHolder.setRequestAttributes(servletRequestAttributes);
     }
 
-    @Given("User is registered in the system")
-    public void userHasAnId() {
-        this.userId = "3";
+    @When("Client enters some text")
+    public void clientEntersSomeText() {
+        map = new HashMap<>();
+        map.put("text", "Aš žinau ką veikei aną vasarą.");
     }
 
-    @When("User looks for friend invites")
-    public void userLooksForFriendInvites() {
-        FriendInvite friendInv1 = new FriendInvite("9", "Not Bruce", "Not Wayne", null,
-                "46");
-        ArrayList<FriendInvite> invites = new ArrayList<>();
-        invites.add(friendInv1);
-        when(repository.getFriendInvites(userId)).thenReturn(invites);
-
-    }
-
-    @Then("User sees friend invites")
-    public void userSeesFriendInvites() {
-        ArrayList<FriendInvite> friendInvites = apiController.getFriendInvites(userId);
-        assertThat(friendInvites.size()).isEqualTo(1);
+    @Then("The language is returned based on the text")
+    public void languageIsReturned() {
+        result = apiController.detectlanguage(map);
+        assertThat(result).isNotNull();
     }
 }
