@@ -17,6 +17,16 @@ import javax.servlet.http.HttpServletRequest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * Get weather of city test
+ *
+ * @author Laurynas Zlatkus
+ * @author Rytis Razmus
+ * @author Jonas Zemaitis
+ * @author Evaldas Tamutis
+ * @author Evaldas Zalnierius
+ */
+
 public class GetWeatherStepDefs {
 
     private String city;

@@ -21,6 +21,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
+/**
+ * Search for friend test
+ *
+ * @author Laurynas Zlatkus
+ * @author Rytis Razmus
+ * @author Jonas Zemaitis
+ * @author Evaldas Tamutis
+ * @author Evaldas Zalnierius
+ */
+
 public class FriendSearchStepDefs {
 
     private ArrayList<Friend> friends = new ArrayList<>();

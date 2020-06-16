@@ -20,6 +20,16 @@ import javax.servlet.http.HttpServletRequest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Get love test
+ *
+ * @author Laurynas Zlatkus
+ * @author Rytis Razmus
+ * @author Jonas Zemaitis
+ * @author Evaldas Tamutis
+ * @author Evaldas Zalnierius
+ */
+
 public class GetLoveStepDefs {
 
     private User user;

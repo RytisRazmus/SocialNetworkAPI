@@ -17,6 +17,16 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * Detect post language test
+ *
+ * @author Laurynas Zlatkus
+ * @author Rytis Razmus
+ * @author Jonas Zemaitis
+ * @author Evaldas Tamutis
+ * @author Evaldas Zalnierius
+ */
+
 public class DetectLanguageStepDefs {
 
     private String result;

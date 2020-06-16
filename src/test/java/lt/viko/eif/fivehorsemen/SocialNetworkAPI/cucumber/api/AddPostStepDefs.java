@@ -18,6 +18,16 @@ import javax.servlet.http.HttpServletRequest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
+/**
+ * Add new post test
+ *
+ * @author Laurynas Zlatkus
+ * @author Rytis Razmus
+ * @author Jonas Zemaitis
+ * @author Evaldas Tamutis
+ * @author Evaldas Zalnierius
+ */
+
 public class AddPostStepDefs {
 
     private Post post;
