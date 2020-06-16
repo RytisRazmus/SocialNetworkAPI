@@ -1,7 +1,7 @@
 Feature: Friend
 
   Scenario: Get friend's id
-    Given Existing friend
+    Given Existing friends
     When Asks for friend's id
     Then Received friend's id
 

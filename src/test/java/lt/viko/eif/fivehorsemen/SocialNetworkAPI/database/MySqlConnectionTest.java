@@ -2,6 +2,7 @@ package lt.viko.eif.fivehorsemen.SocialNetworkAPI.database;
 
 import ch.vorburger.exec.ManagedProcessException;
 import ch.vorburger.mariadb4j.DB;
+import io.cucumber.junit.CucumberOptions;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
