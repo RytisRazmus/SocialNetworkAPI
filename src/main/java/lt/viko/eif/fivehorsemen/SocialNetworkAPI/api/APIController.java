@@ -231,6 +231,7 @@ public class APIController implements ErrorController {
         }
     }
 
+
     /**
      * Get weather of your city
      * @param userId id of user
