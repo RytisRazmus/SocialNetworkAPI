@@ -2,9 +2,10 @@ package lt.viko.eif.fivehorsemen.SocialNetworkAPI.cucumber.database;
 
 import ch.vorburger.exec.ManagedProcessException;
 import ch.vorburger.mariadb4j.DB;
-import cucumber.annotation.en.Given;
-import cucumber.annotation.en.Then;
-import cucumber.annotation.en.When;
+
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.User;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.database.MySqlConnection;
 import org.junit.jupiter.api.BeforeAll;

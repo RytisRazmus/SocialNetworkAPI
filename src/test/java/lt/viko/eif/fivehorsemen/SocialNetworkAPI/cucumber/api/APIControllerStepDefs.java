@@ -4,9 +4,9 @@ import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.cucumber.junit.CucumberOptions;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.*;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.repository.APIRepositoryImpl;
-
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -36,6 +36,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 @RunWith(MockitoJUnitRunner.class)
+@CucumberOptions(features = {"resources/api/"})
 public class APIControllerStepDefs {
 
     @InjectMocks
@@ -69,66 +70,6 @@ public class APIControllerStepDefs {
         HttpServletRequest httpServletRequestMock = new MockHttpServletRequest();
         ServletRequestAttributes servletRequestAttributes = new ServletRequestAttributes(httpServletRequestMock);
         RequestContextHolder.setRequestAttributes(servletRequestAttributes);
-    }
-
-    @Given("User enters his information")
-    public void userEntersHisInformation() {
-
-        user = new User("99", "albatrosas@kaunas.lt", "Joseph", "Stalin",
-                "+340567261", "1953-03-05", "1878-12-18", "pazhalsta");
-    }
-
-    @When("User presses register")
-    public void userPressesRegister() {
-
-        when(repository.addUser(user)).thenReturn(true);
-    }
-
-    @Then("New User created")
-    public void newUserCreated() {
-        String result = apiController.register(user);
-        assertEquals("User added.", result);
-    }
-
-    @Given("User enters email and password")
-    public void userEntersEmailAndPassword() {
-        user = new User("1", "laurynas.zlatkus@gmail.com", "Laurynas", "Zlatkus",
-                "911", "2020-01-15 18:25:16", "2020-05-15", "123456");
-
-        when(repository.getUser("laurynas.zlatkus@gmail.com","123456")).thenReturn(user);
-    }
-
-    @When("User tries to login")
-    public void userTriesToLogin() {
-        map.put("email", "laurynas.zlatkus@gmail.com");
-        map.put("password", "123456");
-    }
-
-    @Then("User logs in")
-    public void userLogsIn() {
-        User result = apiController.login(map);
-        assertEquals(result, user);
-    }
-
-    @Given("User has an id")
-    public void userHasAnId() {
-       this.userId = "3";
-    }
-
-    @When("User looks for friend invites")
-    public void userLooksForFriendInvites() {
-        FriendInvite friendInv1 = new FriendInvite("9", "Not Bruce", "Not Wayne", null,
-                "46");
-        ArrayList<FriendInvite> invites = new ArrayList<>();
-        invites.add(friendInv1);
-        when(repository.getFriendInvites(userId)).thenReturn(invites);
-
-    }
-
-    @Then("User sees friend invites")
-    public void userSeesFriendInvites() {
-        ArrayList<FriendInvite> friendInvites = apiController.getFriendInvites(userId);
-        assertThat(friendInvites.size()).isEqualTo(1);
     }
 
     @When("User enters friend id")

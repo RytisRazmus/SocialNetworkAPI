@@ -1,19 +1,4 @@
-Feature: APIControllerF
-
-  Scenario: Create new User
-    Given User enters his information
-    When User presses register
-    Then New User created
-
-  Scenario: User logs in
-    Given User enters email and password
-    When User tries to login
-    Then User logs in
-
-  Scenario: Get friend invites
-    Given User has an id
-    When User looks for friend invites
-    Then User sees friend invites
+Feature: Login and register
 
   Scenario: Send friend invite
     Given User has an id
