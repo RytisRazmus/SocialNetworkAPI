@@ -1,12 +1,12 @@
 Feature: APIRepositoryImpl
 
   Scenario: Get user
-    Given Existing user
+    Given Users list
     When User enters user email and password
     Then User gets desired user
 
   Scenario: Search friend
-    Given Existing friend
+    Given Existing friends
     When user starts a friend search
     Then User gets desired friend
 
@@ -34,7 +34,7 @@ Feature: APIRepositoryImpl
     Then Friend invite is inserted
 
   Scenario: Get friends
-    Given Existing friends
+    Given Friends list
     When User wants to get all friends
     Then User gets all friends
 

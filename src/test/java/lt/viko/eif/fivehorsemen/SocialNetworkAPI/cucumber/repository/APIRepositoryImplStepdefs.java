@@ -6,15 +6,12 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.data.*;
 import lt.viko.eif.fivehorsemen.SocialNetworkAPI.database.MySqlConnection;
-import lt.viko.eif.fivehorsemen.SocialNetworkAPI.repository.APIRepositoryImpl;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.http.HttpHeaders;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -40,24 +37,13 @@ public class APIRepositoryImplStepdefs {
     @Mock
     private MySqlConnection mySqlConnection;
 
-    private String weatherApiKey = "9692b48fc9c249b4a960cd898a147223";
-
-    private String loveApiKey = "045de38290mshb58ec6d51d4e6a9p1d0760jsn01c573420a6a";
-
-    private String languageKey = "493ef97d248008918b1ed299b11626b1";
-
     private User user;
     private Map<String, String> map = new HashMap<>();
-    private String userId;
     private ArrayList<Friend> friends = new ArrayList<>();
     private Post post;
     private Friend friend;
     private ArrayList<FriendPost> posts;
     private String city;
-    private RestTemplate restTemplate;
-    private String result;
-    private HttpHeaders headers = new HttpHeaders();
-    private int statusCode;
     String fromUser;
     String toUser;
     ArrayList<FriendInvite> friendInvites;
@@ -70,8 +56,8 @@ public class APIRepositoryImplStepdefs {
         RequestContextHolder.setRequestAttributes(servletRequestAttributes);
     }
 
-    @Given("Existing user")
-    public void existingUser() {
+    @Given("Users list")
+    public void usersList() {
         user = new User("99", "albatrosas@kaunas.lt", "Joseph", "Stalin",
                 "+340567261", "1953-03-05", "1878-12-18", "pazhalsta");
     }
@@ -88,8 +74,8 @@ public class APIRepositoryImplStepdefs {
         assertEquals(user, result);
     }
 
-    @Given("Existing friend")
-    public void existingFriend() {
+    @Given("Existing friends")
+    public void existingFriends() {
         friend = new Friend("1", "Evaldas", "Tamutis",
                 "https://www.cutoutme.com.au/wp-content/uploads/2018/07/Single-CHls.jpg");
         ArrayList<Friend> friends = new ArrayList<>();
@@ -209,8 +195,8 @@ public class APIRepositoryImplStepdefs {
         boolean result = repository.insertFriendInvite("laurynas","Evaldas");
         assertEquals(result,true);
     }
-    @Given("Existing friends")
-    public void existingFriends() {
+    @Given("Friends list")
+    public void friendsList() {
         Friend friend = new Friend("1", "Evaldas", "Tamutis",
                 "https://www.cutoutme.com.au/wp-content/uploads/2018/07/Single-CHls.jpg");
         Friend friend1 = new Friend("2", "Andrius", "Rimiškis",
