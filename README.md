@@ -15,19 +15,21 @@ Software used for the project.
 
 ## End points
 
-* GET: /friendInvites - get friend invites.
-* POST: /friendInvites - send a friend invite.
-* POST: /posts - add post conataining an image and text.
-* GET: /friend - search for user by his fullname.
-* DELETE: /friendInvites - reject friend invite.
-* GET: /posts - see posts made by your friends.
-* POST: /language-detect - detect language by submiting text.
-* GET: /verifyMail - check is email is valid.
-* POST /register{user} Metodas, iterpiantis nauja naudotoja i duomenu baze (duomenys JSON formatu)
-* GET /friends{userId} Metodas skirtas gauti draugus pagal id reiksme (duomenys JSON formatu)
-* POST /login/{credentials} Metodas skirtas prijungti vartotoja prie sistemos (duomenys JSON formatu)
-* DELETE /friendInvites/{id} Metodas skirtas panaikinti draugo pakvietima (duomenys JSON formatu)
-* GET /posts/{id} Metodas skirtas gauti draugo postus (duomenys JSON formatu)
+* GET: /friendInvites/{id} - get friend invites by user id.
+* POST: /friendInvites - send a friend invite (Takes a Json object).
+* POST: /posts - add post containing an image and text (Takes a Json object).
+* GET: /friend/{fullname}- search for user by his full-name.
+* DELETE: /friendInvites/{id} - reject friend invite.
+* GET: /posts/{id} - see posts made by your friends.
+* POST: /language-detect - detect language by submiting text (Takes a Json object).
+* GET: /weather/{id} - returns weather in users living city.
+* GET: /verifyMail/{email} - check is email is valid.
+* POST: /register{user} add user to database (Takes a Json object).
+* GET:/love/{id}/{loveId} - return percentage of love between users.
+* GET: /friends{userId} get users friends.
+* POST: /login/{credentials} - login to the system (Takes a Json object).
+
+
 
 ## Built with
 
