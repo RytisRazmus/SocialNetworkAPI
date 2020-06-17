@@ -23,7 +23,11 @@ Software used for the project.
 * GET: /posts - see posts made by your friends.
 * POST: /language-detect - detect language by submiting text.
 * GET: /verifyMail - check is email is valid.
-
+* POST /register{user} Metodas, iterpiantis nauja naudotoja i duomenu baze (duomenys JSON formatu)
+* GET /friends{userId} Metodas skirtas gauti draugus pagal id reiksme (duomenys JSON formatu)
+* POST /login/{credentials} Metodas skirtas prijungti vartotoja prie sistemos (duomenys JSON formatu)
+* DELETE /friendInvites/{id} Metodas skirtas panaikinti draugo pakvietima (duomenys JSON formatu)
+* GET /posts/{id} Metodas skirtas gauti draugo postus (duomenys JSON formatu)
 
 ## Built with
 
