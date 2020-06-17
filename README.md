@@ -15,21 +15,21 @@ Software used for the project.
 
 ## End points
 
-* GET: /friendInvites - get friend invites.
-* POST: /friendInvites - send a friend invite.
-* POST: /posts - add post conataining an image and text.
-* GET: /friend - search for user by his fullname.
-* DELETE: /friendInvites - reject friend invite.
-* GET: /posts - see posts made by your friends.
-* POST: /language-detect - detect language by submiting text.
-* GET: /verifyMail - check is email is valid.
-* POST /register{user} Metodas, iterpiantis nauja naudotoja i duomenu baze (duomenys JSON formatu)
-* GET /friends{userId} Metodas skirtas gauti draugus pagal id reiksme (duomenys JSON formatu)
-* POST /login/{credentials} Metodas skirtas prijungti vartotoja prie sistemos (duomenys JSON formatu)
-* DELETE /friendInvites/{id} Metodas skirtas panaikinti draugo pakvietima (duomenys JSON formatu)
-* GET /posts/{id} Metodas skirtas gauti draugo postus (duomenys JSON formatu)
-* POST /language-detect/{text} Metodas skirtas nustatyti teksto kalbai (duomenys JSON formatu)
-* GET /verifyMail/{email} Metodas skirtas patvirtinti pasto adresa (duomenys JSON formatu)
+* GET: /friendInvites - get friend invites. (duomenys JSON formatu)
+* POST: /friendInvites - send a friend invite. (duomenys JSON formatu)
+* POST: /posts - add post conataining an image and text. (duomenys JSON formatu)
+* GET: /friend - search for user by his fullname. (duomenys JSON formatu)
+* DELETE: /friendInvites - reject friend invite. (duomenys JSON formatu)
+* GET: /posts - see posts made by your friends. (duomenys JSON formatu)
+* POST: /language-detect - detect language by submiting text. (duomenys JSON formatu)
+* GET: /verifyMail - check is email is valid. (duomenys JSON formatu)
+* POST /register{user} Metodas, iterpiantis nauja naudotoja i duomenu baze. (duomenys JSON formatu)
+* GET /friends{userId} Metodas skirtas gauti draugus pagal id reiksme. (duomenys JSON formatu)
+* POST /login/{credentials} Metodas skirtas prijungti vartotoja prie sistemos. (duomenys JSON formatu)
+* DELETE /friendInvites/{id} Metodas skirtas panaikinti draugo pakvietima. (duomenys JSON formatu)
+* GET /posts/{id} Metodas skirtas gauti draugo postus. (duomenys JSON formatu)
+* POST /language-detect/{text} Metodas skirtas nustatyti teksto kalbai. (duomenys JSON formatu)
+* GET /verifyMail/{email} Metodas skirtas patvirtinti pasto adresa. (duomenys JSON formatu)
 
 ## Built with
 
