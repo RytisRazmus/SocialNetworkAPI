@@ -28,6 +28,8 @@ Software used for the project.
 * POST /login/{credentials} Metodas skirtas prijungti vartotoja prie sistemos (duomenys JSON formatu)
 * DELETE /friendInvites/{id} Metodas skirtas panaikinti draugo pakvietima (duomenys JSON formatu)
 * GET /posts/{id} Metodas skirtas gauti draugo postus (duomenys JSON formatu)
+* POST /language-detect/{text} Metodas skirtas nustatyti teksto kalbai (duomenys JSON formatu)
+* GET /verifyMail/{email} Metodas skirtas patvirtinti pasto adresa (duomenys JSON formatu)
 
 ## Built with
 
