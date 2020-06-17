@@ -15,7 +15,14 @@ Software used for the project.
 
 ## End points
 
-
+GET: /friendInvites - get friend invites.
+POST: /friendInvites - send a friend invite.
+POST: /posts - add post conataining an image and text.
+GET: /friend - search for user by his fullname.
+DELETE: /friendInvites - reject friend invite.
+GET: /posts - see posts made by your friends.
+POST: /language-detect - detect language by submiting text.
+GET: /verifyMail - check is email is valid.
 
 
 ## Built with
