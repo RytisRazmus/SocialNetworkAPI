@@ -54,7 +54,7 @@ public class MySqlConnectionTest {
     private static void setupDatabase(){
         try {
             File f = new File(System.getProperty("user.dir") +
-                    "/src/test/java/lt/viko/eif/fivehorsemen/SocialNetworkAPI/resources/Dump.sql");
+                    "./src/test/java/lt/viko/eif/fivehorsemen/SocialNetworkAPI/resources/Dump.sql");
 
             connection = DriverManager.getConnection("jdbc:mysql://localhost/cityTransport?serverTimezone=GMT",
                     "root", "");

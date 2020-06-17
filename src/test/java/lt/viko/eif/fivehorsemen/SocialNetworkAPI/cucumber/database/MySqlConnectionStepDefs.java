@@ -54,19 +54,26 @@ public class MySqlConnectionStepDefs {
      */
 
     @Before
-    public static void setUp() throws ManagedProcessException {
+    public static void setUp()  {
         if(!running) {
-            System.out.println("Starting Database!");
-            mySqlConnection = new MySqlConnection();
 
-            DB database = DB.newEmbeddedDB(3306);
-            database.start();
+            try {
+                System.out.println("Starting Database!");
+                mySqlConnection = new MySqlConnection();
 
-            database.createDB("cityTransport");
-            mySqlConnection.setTesting(true);
+                DB database = null;
+                database = DB.newEmbeddedDB(3306);
+                database.start();
 
-            setupDatabase();
-            running = true;
+                database.createDB("cityTransport");
+                mySqlConnection.setTesting(true);
+
+                setupDatabase();
+                running = true;
+            } catch (ManagedProcessException e) {
+                System.out.println(e.getMessage());
+            }
+
         }
     }
 
